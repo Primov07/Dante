@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer", "MusicPlayer\MusicPlayer.csproj", "{72EE784F-C8C0-4C61-946A-E8D9393F50AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicControl", "MusicControl\MusicControl.csproj", "{96563C7B-3567-478B-9B40-D625623AF86B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpRequest", "HttpRequest\HttpRequest.csproj", "{AC9FDC63-805D-4BAA-90D1-1F94234B9B88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{481F2677-8556-47A1-9C96-03E42A42110E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +25,19 @@ Global
 		{96563C7B-3567-478B-9B40-D625623AF86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96563C7B-3567-478B-9B40-D625623AF86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96563C7B-3567-478B-9B40-D625623AF86B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC9FDC63-805D-4BAA-90D1-1F94234B9B88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9FDC63-805D-4BAA-90D1-1F94234B9B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9FDC63-805D-4BAA-90D1-1F94234B9B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9FDC63-805D-4BAA-90D1-1F94234B9B88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481F2677-8556-47A1-9C96-03E42A42110E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481F2677-8556-47A1-9C96-03E42A42110E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481F2677-8556-47A1-9C96-03E42A42110E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481F2677-8556-47A1-9C96-03E42A42110E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46AF3659-E9F2-4581-92F2-491290D2B926}
 	EndGlobalSection
 EndGlobal

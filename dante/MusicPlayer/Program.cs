@@ -1,4 +1,4 @@
-﻿using MusicPlayer.CLIDisplay;
+﻿
 using MusicControl;
 using NAudio.Wave;
 
