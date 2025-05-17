@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-choki = "1.1.13"
+choki = "1.1.14"
 
 [dependencies.mongodb]
 version = "3.2.3"
