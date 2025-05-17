@@ -1,0 +1,38 @@
+[
+  {
+    "ID": 1,
+    "Title": "Three Days Grace",
+    "SongIDs": [
+      1
+    ]
+  },
+  {
+    "ID": 2,
+    "Title": "Alienation",
+    "SongIDs": [
+      2
+    ]
+  },
+  {
+    "ID": 3,
+    "Title": "One-X",
+    "SongIDs": [
+      3,
+      4
+    ]
+  },
+  {
+    "ID": 4,
+    "Title": "Explotions",
+    "SongIDs": [
+      5
+    ]
+  },
+  {
+    "ID": 5,
+    "Title": "The Dead Of Piece Of Mind",
+    "SongIDs": [
+      6
+    ]
+  }
+]

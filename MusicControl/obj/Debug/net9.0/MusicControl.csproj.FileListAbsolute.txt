@@ -1,0 +1,12 @@
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\bin\Debug\net9.0\MusicControl.deps.json
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\bin\Debug\net9.0\MusicControl.dll
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\bin\Debug\net9.0\MusicControl.pdb
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.csproj.AssemblyReference.cache
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.AssemblyInfoInputs.cache
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.AssemblyInfo.cs
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.csproj.CoreCompileInputs.cache
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.dll
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\refint\MusicControl.dll
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\MusicControl.pdb
+C:\Users\User\RiderProjects\MusicPlayer\MusicControl\obj\Debug\net9.0\ref\MusicControl.dll

@@ -1,0 +1,32 @@
+[
+  {
+    "ID": 1,
+    "Title": "Home",
+    "Genre": "Alternative Rock"
+  },
+  {
+    "ID": 2,
+    "Title": "Apologies",
+    "Genre": "Alternative Rock"
+  },
+  {
+    "ID": 3,
+    "Title": "Pain",
+    "Genre": "Alternative Rock"
+  },
+  {
+    "ID": 4,
+    "Title": "Riot",
+    "Genre": "Alternative Rock"
+  },
+  {
+    "ID": 5,
+    "Title": "A Scar Is Born",
+    "Genre": "Alternative Rock"
+  },
+  {
+    "ID": 6,
+    "Title": "Artificial Suicide",
+    "Genre": "Alternative Rock"
+  }
+]
