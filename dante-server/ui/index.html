@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Song upload -->
+    Upload song
+    <form action="/create-song" method="post" enctype="multipart/form-data">
+      <input type="text" name="title" id="title" required />
+      <br />
+      <input type="text" name="genre" id="genre" required />
+      <br />
+      <input
+        type="file"
+        accept=".mp3"
+        name="music-file"
+        id="music-file"
+        required
+      />
+      <br />
+      <input type="file" accept=".png" name="cover" id="cover" required />
+      <br />
+      <input type="submit" />
+    </form>
+    <br />
+    <!--  -->
+    <!-- Album create -->
+    New album
+    <form action="/create-album" method="post" enctype="multipart/form-data">
+      <input type="text" name="title" id="title" required />
+      <br />
+      <input type="file" accept=".png" name="cover" id="cover" required />
+      <br />
+      <input type="submit" />
+    </form>
+    <br />
+    <!--  -->
+    <!-- Artist create -->
+    New artist
+    <form action="/create-artist" method="post" enctype="multipart/form-data">
+      <input type="text" name="name" id="name" required />
+      <br />
+      <input
+        type="number"
+        max="10"
+        step=".1"
+        name="rating"
+        id="rating"
+        required
+      />
+      <br />
+      <input type="file" accept=".png" name="pfp" id="pfp" required />
+      <br />
+      <input type="submit" />
+    </form>
+    <!--  -->
+  </body>
+</html>
