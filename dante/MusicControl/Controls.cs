@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MusicControl
 {
@@ -17,6 +18,10 @@ namespace MusicControl
 		private static List<string> PrevQueue = new List<string>();
 		private static AudioFileReader audioFile;
 		private static WaveOutEvent output = new WaveOutEvent();
+		public static PlaybackState GetPlaybackState { get { return output.PlaybackState; } }
+		public static float GetVolume { get { return output.Volume; } }
+		public static TimeSpan GetCurrentTime { get { return audioFile.CurrentTime; } }
+		public static TimeSpan GetTotalTime { get { return audioFile.TotalTime; } }
 
 		static public void PlaySong(string SongID) {
 			/// Пуска дадената песен, ако друга песен е пусната я спира и пуска новата
@@ -33,19 +38,14 @@ namespace MusicControl
 			songThread = new Thread(() => {
 				while (output.PlaybackState != PlaybackState.Stopped)
 				{
-					Console.WriteLine(output.PlaybackState);
-					Console.WriteLine(TimeSpan.FromSeconds(audioFile.CurrentTime.TotalSeconds));
-					Console.WriteLine(output.Volume);
-					Thread.Sleep(3000);
+					//Console.WriteLine(output.PlaybackState);
+					//Console.WriteLine(TimeSpan.FromSeconds(audioFile.CurrentTime.TotalSeconds));
+					//Console.WriteLine(output.Volume);
+					Thread.Sleep(1500);
 				}
 				if (!ManualStop) NextSong();
 			});
 			songThread.Start();
-		}
-
-		static public PlaybackState GetPlaybackState() {
-			/// Връща PlaybackState.Playing ако песента е пусната, PlaybackState.Paused ако е на пауза и PlaybackState.Stopped ако е спряна
-			return output.PlaybackState;
 		}
 
 		static public void PauseSong() {
