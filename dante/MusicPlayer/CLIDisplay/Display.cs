@@ -10,39 +10,69 @@ namespace MusicPlayer.CLIDisplay
 	{
 		string[] UNDERLINE = ["\x1B[4m", "\x1B[0m"];
 		private string[] colors = ["\u001b[36m", "\u001b[0m"];
-		private string[] options = { "[{0}] Play Music", "[{0}] Pause Music", "[{0}] Stop Music", "[{0}] Next Song", "[{0}] Previous Song", "[{0}] Exit" };
-		private byte posx = 0;
-		private byte posy = 0;
+		private string[] options = { "[{0}] Play Music", "[{0}] Pause Music", "[{0}] Stop Music", "[{0}] Next Song", "[{0}] Previous Song", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit" };
+		private List<string> artists;
+		private List<string> albums;
+		private List<string> songs;
+		//private byte posx = 0;
+		//private byte posy = 0;
 
 		public Display()
-		{
+		{	
+			artists = options.Take(20).ToList();
+			albums = options.Take(20).ToList();
+			songs = options.Take(20).ToList();
 			MenuFunc();
 		}
 
 		private void MenuFunc()
 		{
 			Console.CursorVisible = false;
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.WriteLine(@"==============================
+			TableDrawer tableDrawer = new TableDrawer(artists, albums, songs);
+//			Console.ForegroundColor = ConsoleColor.Green;
+//			Console.WriteLine(@"==============================
 
-      WELCOME TO DANTE
+//      WELCOME TO DANTE
 
-==============================
-");
-			Menu();
+//==============================
+//");
+//			Menu();
 			while (true) {
+				if (TableDrawer.posx == 1 && (TableDrawer.posy > 19 || 20-TableDrawer.posy>=19)) {
+					artists = options.Skip(TableDrawer.posy-20).Take(20).ToList();
+				}
+				if (TableDrawer.posx == 2 && TableDrawer.posy > 19) {
+					albums = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
+				}
+				if (TableDrawer.posx == 3 && TableDrawer.posy > 19) {
+					songs = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
+				}
+
+
 				ConsoleKeyInfo key = Console.ReadKey(true);
 				if (key.Key == ConsoleKey.UpArrow) {
-					if (posx > 0) {
-						posx--;
+					if (TableDrawer.posy > 0) {
+						TableDrawer.posy--;
 						Console.Clear();
-						Menu();
+						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else if (key.Key == ConsoleKey.DownArrow) {
-					if (posx < options.Length - 1) {
-						posx++;
+					if (TableDrawer.posy < options.Length - 1) {
+						TableDrawer.posy++;
 						Console.Clear();
-						Menu();
+						tableDrawer = new TableDrawer(artists, albums, songs);
+					}
+				}else if (key.Key == ConsoleKey.LeftArrow) {
+					if (TableDrawer.posx > 1) {
+						TableDrawer.posx--;
+						Console.Clear();
+						tableDrawer = new TableDrawer(artists, albums, songs);
+					}
+				} else if (key.Key == ConsoleKey.RightArrow) {
+					if (TableDrawer.posx < 3) {
+						TableDrawer.posx++;
+						Console.Clear();
+						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else if (key.Key == ConsoleKey.Enter) {
 					Console.Clear();
@@ -52,7 +82,7 @@ namespace MusicPlayer.CLIDisplay
 					Console.WriteLine("Exiting...");
 					Environment.Exit(0);
 				} else if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6) {
-					posx = (byte)(key.Key - ConsoleKey.D1);
+					TableDrawer.posx = (byte)(key.Key - ConsoleKey.D1);
 					Console.Clear();
 					MenuSwitch();
 					
@@ -61,7 +91,7 @@ namespace MusicPlayer.CLIDisplay
 		}
 
 		private void MenuSwitch() {
-			switch (posx) {
+			switch (TableDrawer.posx) {
 				case 1:
 					//PlayMusic();
 					break;
@@ -91,7 +121,7 @@ namespace MusicPlayer.CLIDisplay
 
 			for (int i = 0; i < options.Count(); i++)
 			{
-				if (i == posx)
+				if (i == TableDrawer.posx)
 				{
 					Console.ForegroundColor = ConsoleColor.Cyan;
 					Console.WriteLine($"{colors[0] + options[i] + colors[1]}", String.Join((i+1).ToString(), [UNDERLINE[0], UNDERLINE[1]+colors[0]]));
