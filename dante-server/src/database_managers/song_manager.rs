@@ -94,6 +94,8 @@ mod song_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 
     #[test]
@@ -121,6 +123,8 @@ mod song_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn get_all() {
@@ -146,6 +150,8 @@ mod song_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn update() {
@@ -180,6 +186,8 @@ mod song_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn delete() {
@@ -212,5 +220,7 @@ mod song_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 }

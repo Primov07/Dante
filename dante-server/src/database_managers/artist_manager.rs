@@ -94,6 +94,8 @@ mod artist_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 
     #[test]
@@ -121,6 +123,8 @@ mod artist_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn get_all() {
@@ -146,6 +150,8 @@ mod artist_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn update() {
@@ -180,6 +186,8 @@ mod artist_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn delete() {
@@ -188,7 +196,7 @@ mod artist_manager_tests {
         let client = Client::with_uri_str(uri).unwrap();
         let db = client.database(&format!("Tests-{}", generate_id()));
 
-        let artist = Artist::new("Test1".to_string(),5.0);
+        let artist = Artist::new("Test1".to_string(), 5.0);
         let id = artist.id.clone();
 
         // Real Data
@@ -212,5 +220,7 @@ mod artist_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 }

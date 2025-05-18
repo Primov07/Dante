@@ -95,6 +95,8 @@ mod album_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 
     #[test]
@@ -122,6 +124,8 @@ mod album_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn get_all() {
@@ -147,6 +151,8 @@ mod album_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn update() {
@@ -181,6 +187,8 @@ mod album_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
     #[test]
     fn delete() {
@@ -213,5 +221,7 @@ mod album_manager_tests {
             .delete_many(doc! {})
             .run()
             .unwrap();
+
+        db.drop().run().unwrap();
     }
 }
