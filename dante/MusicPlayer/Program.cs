@@ -9,7 +9,7 @@ namespace MusicPlayer
 {
     internal class Program
     {
-        static void Main(string[] args) {
+        static async Task Main(string[] args) {
             //Примерен код
 
             // Display display = new Display();
@@ -32,7 +32,8 @@ namespace MusicPlayer
             //	}
             //}
             // https://dante.kartof.tk/
-            Getter.GetSongs();
+            List<Song> songs = await Getter.GetSongs();
+            Console.WriteLine(songs[0].Title);
         }
     }
 }
