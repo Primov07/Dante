@@ -17,5 +17,5 @@ pub fn get(
 
     let output = serde_json::to_string_pretty(&all).unwrap_or_default();
 
-    res.send_string(&output)
+    res.send_json(&output)
 }
