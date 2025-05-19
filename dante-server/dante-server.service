@@ -1,0 +1,12 @@
+[Unit]
+Description=Dante Server
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/DockerContainers/Dante
+ExecStart=/home/pi/DockerContainers/Dante/dante-server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

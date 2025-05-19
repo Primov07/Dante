@@ -49,8 +49,8 @@ fn main() {
     server.new_static("/image", "./images").unwrap();
 
     server
-        .listen(3000, None, None, || {
-            println!("Dante server started on port 3000!");
+        .listen(3300, None, None, || {
+            println!("Dante server started on port 3300!");
         })
         .unwrap();
 
