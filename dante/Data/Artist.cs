@@ -8,18 +8,14 @@ namespace Data
 {
     public class Artist
     {
-        public int ID { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
-        public double Rating { get; set; }
-        public List<int> AlbumIDs { get; set; }
-        public List<int> SongIDs { get; set; }
-        public Artist(int ID, string Name, double Rating, List<int> AlbumIDs, List<int> SongIDs)
+        public float Rating { get; set; }
+        public List<long> Albums { get; set; }
+        public List<long> Songs { get; set; }
+        public Artist()
         {
-            this.ID = ID;
-            this.Name = Name;
-            this.Rating = Rating;
-            this.AlbumIDs = AlbumIDs;
-            this.SongIDs = SongIDs;
+            
         }
     }
 }

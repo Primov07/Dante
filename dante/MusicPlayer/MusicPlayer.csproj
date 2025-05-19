@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\HttpRequest\HttpRequest.csproj" />
     <ProjectReference Include="..\MusicControl\MusicControl.csproj" />
   </ItemGroup>
 

@@ -2,15 +2,12 @@
 {
     public class Album
     {
-        public int ID { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
-        public List<int> SongIDs { get; set; }
-
-        public Album(int ID, string Title, List<int> ids)
+        public List<long> Songs { get; set; }
+        public Album()
         {
-            this.ID = ID;
-            this.Title = Title;
-            this.SongIDs = ids;
+
         }
     }
 }
