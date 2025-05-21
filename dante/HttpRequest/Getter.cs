@@ -20,8 +20,8 @@ namespace HttpRequest
         };
         public async static Task<List<Artist>> GetArtists()
         {
-            HttpClient client = new HttpClient(handler);
-            HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getArtists");
+            HttpClient client = new HttpClient();//handler); Дава грешка че handler не съществува
+			HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getArtists");
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();

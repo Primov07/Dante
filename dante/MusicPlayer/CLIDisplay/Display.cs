@@ -15,7 +15,7 @@ namespace MusicPlayer.CLIDisplay
 		private List<string> albums;
 		private List<string> songs;
 		//private byte posx = 0;
-		//private byte posy = 0;
+		private byte posy = 0;
 
 		public Display()
 		{	
@@ -38,39 +38,80 @@ namespace MusicPlayer.CLIDisplay
 //");
 //			Menu();
 			while (true) {
-				if (TableDrawer.posx == 1 && (TableDrawer.posy > 19 || 20-TableDrawer.posy>=19)) {
-					artists = options.Skip(TableDrawer.posy-20).Take(20).ToList();
-				}
-				if (TableDrawer.posx == 2 && TableDrawer.posy > 19) {
-					albums = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
-				}
-				if (TableDrawer.posx == 3 && TableDrawer.posy > 19) {
-					songs = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
-				}
-
+				//if (TableDrawer.posx == 1 && (TableDrawer.posy > 19 || 20-TableDrawer.posy>=19)) {
+				//	artists = options.Skip(TableDrawer.posy-20).Take(20).ToList();
+				//}
+				//if (TableDrawer.posx == 2 && TableDrawer.posy > 19) {
+				//	albums = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
+				//}
+				//if (TableDrawer.posx == 3 && TableDrawer.posy > 19) {
+				//	songs = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
+				//}
 
 				ConsoleKeyInfo key = Console.ReadKey(true);
 				if (key.Key == ConsoleKey.UpArrow) {
-					if (TableDrawer.posy > 0) {
-						TableDrawer.posy--;
+					if (TableDrawer.posx == 1) artists = options.Skip(this.posy - 19).Take(20).ToList();
+					else if (TableDrawer.posx == 2) albums = options.Skip(this.posy - 19).Take(20).ToList();
+					else if (TableDrawer.posx == 3) songs = options.Skip(this.posy - 19).Take(20).ToList();
+					if (this.posy > 0) {
+						this.posy--;
+						if (this.posy < 19) TableDrawer.posy = this.posy;
+						else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
+						else TableDrawer.posy = 19;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else if (key.Key == ConsoleKey.DownArrow) {
-					if (TableDrawer.posy < options.Length - 1) {
-						TableDrawer.posy++;
+					if (TableDrawer.posx == 1 && this.posy + 3 <= options.Length) artists = options.Skip(this.posy - 17).Take(20).ToList();
+					else if (TableDrawer.posx == 2 && this.posy + 3 <= options.Length) albums = options.Skip(this.posy - 17).Take(20).ToList();
+					else if (TableDrawer.posx == 3 && this.posy + 3 <= options.Length) songs = options.Skip(this.posy - 17).Take(20).ToList();
+					if (this.posy < options.Length - 1) {
+						this.posy++;
+						if (this.posy < 19) TableDrawer.posy=this.posy;
+						else if (this.posy > 18 && this.posy != options.Length-1) TableDrawer.posy = 18;
+						else TableDrawer.posy = 19;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				}else if (key.Key == ConsoleKey.LeftArrow) {
 					if (TableDrawer.posx > 1) {
 						TableDrawer.posx--;
+						if (TableDrawer.posx == 1) {
+							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - 18).Take(20).ToList();
+							else artists = options.Skip(this.posy - 19).Take(20).ToList();
+						} else
+						if (TableDrawer.posx == 2) {
+							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - 18).Take(20).ToList();
+							else albums = options.Skip(this.posy - 19).Take(20).ToList();
+						} else
+						if (TableDrawer.posx == 3) {
+							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - 18).Take(20).ToList();
+							else songs = options.Skip(this.posy - 19).Take(20).ToList();
+						}
+						//if (this.posy < 19) TableDrawer.posy = this.posy;
+						//else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
+						//else TableDrawer.posy = 19;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else if (key.Key == ConsoleKey.RightArrow) {
 					if (TableDrawer.posx < 3) {
 						TableDrawer.posx++;
+						if (TableDrawer.posx == 1) {
+							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - 18).Take(20).ToList();
+							else artists = options.Skip(this.posy - 19).Take(20).ToList();
+						} else
+						if (TableDrawer.posx == 2) {
+							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - 18).Take(20).ToList();
+							else albums = options.Skip(this.posy - 19).Take(20).ToList();
+						} else
+						if (TableDrawer.posx == 3) {
+							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - 18).Take(20).ToList();
+							else songs = options.Skip(this.posy - 19).Take(20).ToList();
+						}
+						//if (this.posy < 19) TableDrawer.posy = this.posy;
+						//else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
+						//if (this.posy == options.Length-1) ;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
