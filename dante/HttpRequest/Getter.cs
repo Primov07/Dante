@@ -20,12 +20,14 @@ namespace HttpRequest
         };
         public async static Task<List<Artist>> GetArtists()
         {
-            HttpClient client = new HttpClient();//handler); Дава грешка че handler не съществува
-			HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getArtists");
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getArtists");
             response.EnsureSuccessStatusCode();
 
-            string json = await response.Content.ReadAsStringAsync();
-            List<Artist>? artists = JsonSerializer.Deserialize<List<Artist>>(json);
+            var streamContent = await response.Content.ReadAsStreamAsync();
+
+            List<Artist>? artists = JsonSerializer.Deserialize<List<Artist>>(streamContent, options);
 
             return artists;
         }
@@ -45,11 +47,13 @@ namespace HttpRequest
         public async static Task<List<Album>> GetAlbums()
         {
             HttpClient client = new HttpClient();
+
             HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getAlbums");
             response.EnsureSuccessStatusCode();
 
-            string json = await response.Content.ReadAsStringAsync();
-            List<Album>? albums = JsonSerializer.Deserialize<List<Album>>(json);
+            var streamContent = await response.Content.ReadAsStreamAsync();
+
+            List<Album>? albums = JsonSerializer.Deserialize<List<Album>>(streamContent, options);
 
             return albums;
         }

@@ -32,8 +32,12 @@ namespace MusicPlayer
             //	}
             //}
             // https://dante.kartof.tk/
-            List<Song> songs = await Getter.GetSongs();
-            Console.WriteLine(songs[0].Title);
+            //List<Artist> artists = await Getter.GetArtists();
+            //Console.WriteLine(artists.First().Name);
+            //List<Song> songs = await Getter.GetSongs();
+            //Console.WriteLine(songs.First().Title);
+            List<Album> albums = await Getter.GetAlbums();
+            Console.WriteLine(albums.First().Title);
         }
     }
 }
