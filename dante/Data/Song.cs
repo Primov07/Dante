@@ -16,5 +16,9 @@ namespace Data
         {
             
         }
+        public override string ToString()
+        {
+            return $"\"{Title}\"\n{Genre}";
+        }
     }
 }
