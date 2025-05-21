@@ -14,62 +14,54 @@ namespace MusicPlayer.CLIDisplay
 		private List<string> artists;
 		private List<string> albums;
 		private List<string> songs;
+		private int consoleHeight = Console.WindowHeight;
 		//private byte posx = 0;
 		private byte posy = 0;
 
-		public Display()
-		{	
-			artists = options.Take(20).ToList();
-			albums = options.Take(20).ToList();
-			songs = options.Take(20).ToList();
-			MenuFunc();
+		public Display() {
+			//try {
+				artists = options.Take(consoleHeight-11).ToList();
+				albums = options.Take(consoleHeight-11).ToList();
+				songs = options.Take(consoleHeight-11).ToList();
+				MenuFunc();
+			//} catch (ArgumentException e) {
+			//	foreach (var item in e.Data) {
+			//		Console.WriteLine(item);
+			//	}
+			//	//Console.WriteLine(e.Data.ToString());
+			//	Console.WriteLine("Error: " + e.Message);
+			//}
 		}
 
 		private void MenuFunc()
 		{
 			Console.CursorVisible = false;
 			TableDrawer tableDrawer = new TableDrawer(artists, albums, songs);
-//			Console.ForegroundColor = ConsoleColor.Green;
-//			Console.WriteLine(@"==============================
 
-//      WELCOME TO DANTE
-
-//==============================
-//");
-//			Menu();
 			while (true) {
-				//if (TableDrawer.posx == 1 && (TableDrawer.posy > 19 || 20-TableDrawer.posy>=19)) {
-				//	artists = options.Skip(TableDrawer.posy-20).Take(20).ToList();
-				//}
-				//if (TableDrawer.posx == 2 && TableDrawer.posy > 19) {
-				//	albums = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
-				//}
-				//if (TableDrawer.posx == 3 && TableDrawer.posy > 19) {
-				//	songs = options.Skip(TableDrawer.posy - 19).Take(20).ToList();
-				//}
 
 				ConsoleKeyInfo key = Console.ReadKey(true);
 				if (key.Key == ConsoleKey.UpArrow) {
-					if (TableDrawer.posx == 1) artists = options.Skip(this.posy - 19).Take(20).ToList();
-					else if (TableDrawer.posx == 2) albums = options.Skip(this.posy - 19).Take(20).ToList();
-					else if (TableDrawer.posx == 3) songs = options.Skip(this.posy - 19).Take(20).ToList();
+					if (TableDrawer.posx == 1) artists = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
+					else if (TableDrawer.posx == 2) albums = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
+					else if (TableDrawer.posx == 3) songs = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 					if (this.posy > 0) {
 						this.posy--;
-						if (this.posy < 19) TableDrawer.posy = this.posy;
-						else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
-						else TableDrawer.posy = 19;
+						if (this.posy < (consoleHeight-12)) TableDrawer.posy = this.posy;
+						else if (this.posy > (consoleHeight-13) && this.posy != options.Length - 1) TableDrawer.posy = (consoleHeight-13);
+						else TableDrawer.posy = (consoleHeight-12);
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else if (key.Key == ConsoleKey.DownArrow) {
-					if (TableDrawer.posx == 1 && this.posy + 3 <= options.Length) artists = options.Skip(this.posy - 17).Take(20).ToList();
-					else if (TableDrawer.posx == 2 && this.posy + 3 <= options.Length) albums = options.Skip(this.posy - 17).Take(20).ToList();
-					else if (TableDrawer.posx == 3 && this.posy + 3 <= options.Length) songs = options.Skip(this.posy - 17).Take(20).ToList();
+					if (TableDrawer.posx == 1 && this.posy + 3 <= options.Length) artists = options.Skip(this.posy - 17).Take(consoleHeight-11).ToList();
+					else if (TableDrawer.posx == 2 && this.posy + 3 <= options.Length) albums = options.Skip(this.posy - 17).Take(consoleHeight-11).ToList();
+					else if (TableDrawer.posx == 3 && this.posy + 3 <= options.Length) songs = options.Skip(this.posy - 17).Take(consoleHeight-11).ToList();
 					if (this.posy < options.Length - 1) {
 						this.posy++;
-						if (this.posy < 19) TableDrawer.posy=this.posy;
-						else if (this.posy > 18 && this.posy != options.Length-1) TableDrawer.posy = 18;
-						else TableDrawer.posy = 19;
+						if (this.posy < (consoleHeight-12)) TableDrawer.posy=this.posy;
+						else if (this.posy > (consoleHeight-13) && this.posy != options.Length-1) TableDrawer.posy = (consoleHeight-13);
+						else TableDrawer.posy = (consoleHeight-12);
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
@@ -77,20 +69,17 @@ namespace MusicPlayer.CLIDisplay
 					if (TableDrawer.posx > 1) {
 						TableDrawer.posx--;
 						if (TableDrawer.posx == 1) {
-							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - 18).Take(20).ToList();
-							else artists = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else artists = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						} else
 						if (TableDrawer.posx == 2) {
-							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - 18).Take(20).ToList();
-							else albums = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else albums = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						} else
 						if (TableDrawer.posx == 3) {
-							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - 18).Take(20).ToList();
-							else songs = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else songs = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						}
-						//if (this.posy < 19) TableDrawer.posy = this.posy;
-						//else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
-						//else TableDrawer.posy = 19;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
@@ -98,31 +87,31 @@ namespace MusicPlayer.CLIDisplay
 					if (TableDrawer.posx < 3) {
 						TableDrawer.posx++;
 						if (TableDrawer.posx == 1) {
-							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - 18).Take(20).ToList();
-							else artists = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) artists = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else artists = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						} else
 						if (TableDrawer.posx == 2) {
-							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - 18).Take(20).ToList();
-							else albums = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) albums = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else albums = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						} else
 						if (TableDrawer.posx == 3) {
-							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - 18).Take(20).ToList();
-							else songs = options.Skip(this.posy - 19).Take(20).ToList();
+							if (this.posy < options.Length - 1) songs = options.Skip(this.posy - (consoleHeight-13)).Take(consoleHeight-11).ToList();
+							else songs = options.Skip(this.posy - (consoleHeight-12)).Take(consoleHeight-11).ToList();
 						}
-						//if (this.posy < 19) TableDrawer.posy = this.posy;
-						//else if (this.posy > 18 && this.posy != options.Length - 1) TableDrawer.posy = 18;
-						//if (this.posy == options.Length-1) ;
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
-				} else if (key.Key == ConsoleKey.Enter) {
+				} else
+				if (key.Key == ConsoleKey.Enter) {
 					Console.Clear();
 					MenuSwitch();
-				} else if (key.Key == ConsoleKey.Escape) {
+				} else
+				if (key.Key == ConsoleKey.Escape) {
 					Console.Clear();
 					Console.WriteLine("Exiting...");
 					Environment.Exit(0);
-				} else if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6) {
+				} else
+				if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6) {
 					TableDrawer.posx = (byte)(key.Key - ConsoleKey.D1);
 					Console.Clear();
 					MenuSwitch();
