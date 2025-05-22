@@ -1,6 +1,6 @@
 ﻿namespace GUIDisplay
 {
-    partial class ObjectViewer
+    partial class SongViewer
     {
         /// <summary> 
         /// Required designer variable.
@@ -35,32 +35,35 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(43, 12);
+            pictureBox1.Location = new Point(13, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(66, 62);
+            pictureBox1.Size = new Size(100, 42);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // lblString
             // 
-            lblString.AutoSize = true;
-            lblString.Location = new Point(43, 102);
+            lblString.Font = new Font("Segoe UI", 9F);
+            lblString.Location = new Point(13, 48);
             lblString.Name = "lblString";
-            lblString.Size = new Size(50, 20);
+            lblString.Size = new Size(100, 42);
             lblString.TabIndex = 1;
             lblString.Text = "label1";
+            lblString.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ObjectViewer
+            // SongViewer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.RosyBrown;
+            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(lblString);
             Controls.Add(pictureBox1);
-            Name = "ObjectViewer";
-            Load += ObjectViewer_Load;
+            Name = "SongViewer";
+            Size = new Size(123, 108);
+            Load += SongViewer_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

@@ -3,7 +3,7 @@ namespace HttpRequest
 {
     public class MP3Downloader
     {
-        public async static void DownloadSong(int id, string destination)
+        public async static void DownloadSong(long id, string destination)
         {
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"https://dante.kartof.tk/song/{id}", HttpCompletionOption.ResponseHeadersRead);

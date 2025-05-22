@@ -11,6 +11,7 @@ namespace Data
         public long Id { get; set; }
         public string Title { get; set; }
         public string Genre { get; set; }
+        private bool isDownloaded = false;
 
         public Song()
         {
@@ -20,5 +21,7 @@ namespace Data
         {
             return $"\"{Title}\"\n{Genre}";
         }
+        public bool IsDownloaded() => isDownloaded;
+        public void Download() => isDownloaded = true;
     }
 }

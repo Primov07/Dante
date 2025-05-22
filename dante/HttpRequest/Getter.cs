@@ -1,14 +1,5 @@
 ﻿using System.Text.Json;
-using System;
-using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Data;
-using System.Net.Http.Headers;
-using System.Net;
-using System.Security.Authentication;
-using static System.Net.WebRequestMethods;
 
 namespace HttpRequest
 {
@@ -56,6 +47,16 @@ namespace HttpRequest
             List<Album>? albums = JsonSerializer.Deserialize<List<Album>>(streamContent, options);
 
             return albums;
+        }
+        public async static Task<MemoryStream> LoadImage(long id)
+        {
+            HttpClient client = new HttpClient();
+
+            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/song/{id}");
+            var ms = new MemoryStream(data);
+
+            return ms;
+
         }
     }
 }
