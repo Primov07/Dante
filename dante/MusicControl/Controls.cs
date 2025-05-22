@@ -10,7 +10,7 @@ namespace MusicControl
 {
 	public static class Controls
 	{
-		private static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
+		public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
 		private static string SongURL;
 		private static Thread songThread;
 		private static bool ManualStop = false;

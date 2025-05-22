@@ -58,8 +58,8 @@ namespace MusicPlayer.CLIDisplay
 			}
 			Console.Write(artistColor + "|" + new string('-', artistsWidth - 3) + "|"+albumColor+"|" + new string('-', albumsWidth - 2) + "|"+songColor+"|" + new string('-', songsWidth - 2) + "|" + "\u001b[0m");
 
-			Console.WriteLine(new string('\n', consoleHeight-(n+5))+ new string(' ', 20) + "\u001b[7mRight\u001b[0m  Forward     \u001b[7mTab\u001b[0m        Next        \u001b[7mSpace\u001b[0m    Pause       \u001b[7mEnter\u001b[0m      Select  ");
-			Console.Write(new string(' ', 20) + "\u001b[7mLeft\u001b[0m   Backward    \u001b[7mShift+Tab\u001b[0m  Previous    \u001b[7mUp/Down\u001b[0m  Navigate    \u001b[7mBackspace\u001b[0m  Back");
+			Console.WriteLine(new string('\n', consoleHeight-(n+5))+ new string(' ', 18) + "\u001b[7mRight\u001b[0m  Forward     \u001b[7mTab\u001b[0m        Next        \u001b[7mSpace\u001b[0m    Pause/Resume    \u001b[7mEnter\u001b[0m      Select  ");
+			Console.Write(new string(' ', 18) + "\u001b[7mLeft\u001b[0m   Backward    \u001b[7mShift+Tab\u001b[0m  Previous    \u001b[7mUp/Down\u001b[0m  Navigate        \u001b[7mBackspace\u001b[0m  Back");
 		}
 	}
 }
