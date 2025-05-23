@@ -33,9 +33,7 @@
             btnAlbums = new Button();
             btnSongs = new Button();
             artistsData = new DataGridView();
-            btnBrowse = new Button();
             btnPlay = new Button();
-            btnDownload = new Button();
             albumsData = new DataGridView();
             songsData = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -59,6 +57,7 @@
             btnArtists.TabIndex = 1;
             btnArtists.Text = "Artists";
             btnArtists.UseVisualStyleBackColor = true;
+            btnArtists.Click += btnArtists_Click;
             // 
             // btnAlbums
             // 
@@ -68,6 +67,7 @@
             btnAlbums.TabIndex = 2;
             btnAlbums.Text = "Albums";
             btnAlbums.UseVisualStyleBackColor = true;
+            btnAlbums.Click += btnAlbums_Click;
             // 
             // btnSongs
             // 
@@ -77,29 +77,21 @@
             btnSongs.TabIndex = 3;
             btnSongs.Text = "Songs";
             btnSongs.UseVisualStyleBackColor = true;
+            btnSongs.Click += btnSongs_Click;
             // 
             // artistsData
             // 
             artistsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            artistsData.Location = new Point(246, 36);
+            artistsData.Location = new Point(112, 12);
             artistsData.Name = "artistsData";
             artistsData.ReadOnly = true;
             artistsData.RowHeadersWidth = 51;
-            artistsData.Size = new Size(325, 213);
+            artistsData.Size = new Size(446, 193);
             artistsData.TabIndex = 4;
-            // 
-            // btnBrowse
-            // 
-            btnBrowse.Location = new Point(665, 353);
-            btnBrowse.Name = "btnBrowse";
-            btnBrowse.Size = new Size(94, 29);
-            btnBrowse.TabIndex = 5;
-            btnBrowse.Text = "Browse...";
-            btnBrowse.UseVisualStyleBackColor = true;
             // 
             // btnPlay
             // 
-            btnPlay.Location = new Point(665, 289);
+            btnPlay.Location = new Point(661, 392);
             btnPlay.Name = "btnPlay";
             btnPlay.Size = new Size(94, 29);
             btnPlay.TabIndex = 6;
@@ -107,31 +99,22 @@
             btnPlay.UseVisualStyleBackColor = true;
             btnPlay.Click += btnPlay_Click;
             // 
-            // btnDownload
-            // 
-            btnDownload.Location = new Point(440, 304);
-            btnDownload.Name = "btnDownload";
-            btnDownload.Size = new Size(94, 29);
-            btnDownload.TabIndex = 7;
-            btnDownload.Text = "Download";
-            btnDownload.UseVisualStyleBackColor = true;
-            // 
             // albumsData
             // 
             albumsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            albumsData.Location = new Point(257, 52);
+            albumsData.Location = new Point(112, 145);
             albumsData.Name = "albumsData";
             albumsData.ReadOnly = true;
             albumsData.RowHeadersWidth = 51;
-            albumsData.Size = new Size(300, 188);
+            albumsData.Size = new Size(754, 237);
             albumsData.TabIndex = 8;
             // 
             // songsData
             // 
             songsData.BackColor = Color.Firebrick;
-            songsData.Location = new Point(276, 81);
+            songsData.Location = new Point(638, 234);
             songsData.Name = "songsData";
-            songsData.Size = new Size(258, 159);
+            songsData.Size = new Size(754, 237);
             songsData.TabIndex = 9;
             // 
             // Display
@@ -140,11 +123,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(800, 450);
-            Controls.Add(songsData);
             Controls.Add(albumsData);
-            Controls.Add(btnDownload);
+            Controls.Add(songsData);
             Controls.Add(btnPlay);
-            Controls.Add(btnBrowse);
             Controls.Add(artistsData);
             Controls.Add(btnSongs);
             Controls.Add(btnAlbums);
@@ -167,9 +148,7 @@
         private Button btnAlbums;
         private Button btnSongs;
         private DataGridView artistsData;
-        private Button btnBrowse;
         private Button btnPlay;
-        private Button btnDownload;
         private SongViewer songViewer1;
         private DataGridView albumsData;
         private FlowLayoutPanel songsData;

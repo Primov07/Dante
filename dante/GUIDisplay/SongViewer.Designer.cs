@@ -35,18 +35,18 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(13, 3);
+            pictureBox1.Location = new Point(20, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(100, 42);
+            pictureBox1.Size = new Size(80, 61);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // lblString
             // 
             lblString.Font = new Font("Segoe UI", 9F);
-            lblString.Location = new Point(13, 48);
+            lblString.Location = new Point(3, 57);
             lblString.Name = "lblString";
-            lblString.Size = new Size(100, 42);
+            lblString.Size = new Size(117, 51);
             lblString.TabIndex = 1;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
