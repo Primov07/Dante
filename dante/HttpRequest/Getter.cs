@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿
+using System.Text.Json;
 using Data;
+using NAudio.Wave;
 
 namespace HttpRequest
 {
@@ -57,6 +59,19 @@ namespace HttpRequest
 
             return ms;
 
+        }
+        public async static Task<Mp3FileReader> GetSong(long id)
+        {
+            HttpClient client = new HttpClient();
+
+            var stream = await client.GetStreamAsync($"https://dante.kartof.tk/image/song/{id}");
+            var ms = new MemoryStream();
+
+            stream.CopyTo(ms);
+            ms.Position = 0;
+
+            var mp3FileReader = new Mp3FileReader(ms);
+            return mp3FileReader;
         }
     }
 }
