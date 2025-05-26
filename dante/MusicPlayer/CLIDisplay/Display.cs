@@ -1,5 +1,6 @@
 ﻿using HttpRequest;
 using MusicControl;
+using Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,10 @@ namespace MusicPlayer.CLIDisplay
 		string[] UNDERLINE = ["\x1B[4m", "\x1B[0m"];
 		private string[] colors = ["\u001b[36m", "\u001b[0m"];
 		private List<List<string>> Info = new List<List<string>>();
-		private string[] options = { "[{0}] Play Music", "[{0}] Pause Music", "[{0}] Stop Music", "[{0}] Next Song", "[{0}] Previous Song", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit" };
+		private List<Artist> artistsData = Getter.GetArtists().Result;
+		private List<Album> albumsData = Getter.GetAlbums().Result;
+		private List<Song> songsData = Getter.GetSongs().Result;
+		//private string[] options = { "[{0}] Play Music", "[{0}] Pause Music", "[{0}] Stop Music", "[{0}] Next Song", "[{0}] Previous Song", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit", "[{0}] Exit" };
 		private List<string> artists;
 		private List<string> albums;
 		private List<string> songs;
@@ -22,11 +26,12 @@ namespace MusicPlayer.CLIDisplay
 		private byte posy = 0;
 
 		public Display() {
-			Controls.BaseURL = "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
 											 //try {
-			Info.Add([ "Linkin Park", "NEFFEX", "Three Days Grace"]);//Getter.GetArtists().Result.Select(x => x.Name).ToList());
-			Info.Add(["From Zero", "Allienation", "Brawl", "One-X"]);//Getter.GetAlbums().Result.Select(x => x.Title).ToList());
-			Info.Add(["Apologies", "Brawl", "The Emptiness Machine", "Mayday", "Up From The Bottom", "03 With You.flac"]);// Getter.GetSongs().Result.Select(x => x.Title).ToList());
+			Info.Add(artistsData.Select(x => x.Name).ToList());
+			Info.Add(new List<string>());
+			Info.Add(new List<string>());
+			InfoUpdateAlbums();
+			InfoUpdateSongs();
 			artists = Info[0].Take(consoleHeight-11).ToList();
 			albums = Info[1].Take(consoleHeight-11).ToList();
 			songs = Info[2].Take(consoleHeight-11).ToList();
@@ -38,6 +43,24 @@ namespace MusicPlayer.CLIDisplay
 			//	//Console.WriteLine(e.Data.ToString());
 			//	Console.WriteLine("Error: " + e.Message);
 			//}
+		}
+
+		private void InfoUpdateAlbums() {
+			if (TableDrawer.posx == 1) {
+				Artist artist = artistsData.Where(x => x.Name == Info[0][TableDrawer.posy]).First();
+				Info[1] = albumsData.Where(x => artist.Albums.Contains(x.Id)).Select(x => x.Title).ToList();
+			}
+		}
+
+		private void InfoUpdateSongs() {
+			if (TableDrawer.posx == 1) {
+				Artist artist = artistsData.Where(x => x.Name == Info[0][TableDrawer.posy]).First();
+				Info[2] = songsData.Where(x => artist.Songs.Contains(x.Id)).Select(x => x.Title).ToList();
+			} else
+			if (TableDrawer.posx == 2) {
+				Album album = albumsData.Where(x => x.Title == Info[1][TableDrawer.posy]).First();
+				Info[2] = songsData.Where(x => album.Songs.Contains(x.Id)).Select(x => x.Title).ToList();
+			}
 		}
 
 		private void MenuFunc()
@@ -52,24 +75,50 @@ namespace MusicPlayer.CLIDisplay
 					if (TableDrawer.posx == 1) artists = Info[0].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
 					else if (TableDrawer.posx == 2) albums = Info[1].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
 					else if (TableDrawer.posx == 3) songs = Info[2].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
+
 					if (this.posy > 0) {
 						this.posy--;
 						if (this.posy < (consoleHeight - 12)) TableDrawer.posy = this.posy;
 						else if (this.posy > (consoleHeight - 13) && this.posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
 						else TableDrawer.posy = (consoleHeight - 12);
+
+						if (TableDrawer.posx == 1) {
+							InfoUpdateAlbums();
+							InfoUpdateSongs();
+							albums = Info[1].Take(consoleHeight - 11).ToList();
+							songs = Info[2].Take(consoleHeight - 11).ToList();
+						} else
+						if (TableDrawer.posx == 2) {
+							InfoUpdateSongs();
+							songs = Info[2].Take(consoleHeight - 11).ToList();
+						}
+
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
 				} else
 				if (key.Key == ConsoleKey.DownArrow) {
-					if (TableDrawer.posx == 1 && this.posy + 3 <= Info[0].Count) artists = Info[0].Skip(this.posy - 17).Take(consoleHeight - 11).ToList();
-					else if (TableDrawer.posx == 2 && this.posy + 3 <= Info[1].Count) albums = Info[1].Skip(this.posy - 17).Take(consoleHeight - 11).ToList();
-					else if (TableDrawer.posx == 3 && this.posy + 3 <= Info[2].Count) songs = Info[2].Skip(this.posy - 17).Take(consoleHeight - 11).ToList();
+					if (TableDrawer.posx == 1 && this.posy + 3 <= Info[0].Count) artists = Info[0].Skip(this.posy - 16).Take(consoleHeight - 11).ToList();
+					else if (TableDrawer.posx == 2 && this.posy + 3 <= Info[1].Count) albums = Info[1].Skip(this.posy - 16).Take(consoleHeight - 11).ToList();
+					else if (TableDrawer.posx == 3 && this.posy + 3 <= Info[2].Count) songs = Info[2].Skip(this.posy - 16).Take(consoleHeight - 11).ToList();
+
 					if (this.posy < Info[TableDrawer.posx - 1].Count - 1) {
 						this.posy++;
 						if (this.posy < (consoleHeight - 12)) TableDrawer.posy = this.posy;
 						else if (this.posy > (consoleHeight - 13) && this.posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
 						else TableDrawer.posy = (consoleHeight - 12);
+
+						if (TableDrawer.posx == 1) {
+							InfoUpdateAlbums();
+							InfoUpdateSongs();
+							albums = Info[1].Take(consoleHeight - 11).ToList();
+							songs = Info[2].Take(consoleHeight - 11).ToList();
+						} else
+						if (TableDrawer.posx == 2) {
+							InfoUpdateSongs();
+							songs = Info[2].Take(consoleHeight - 11).ToList();
+						}
+
 						Console.Clear();
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					}
@@ -79,16 +128,19 @@ namespace MusicPlayer.CLIDisplay
 						TableDrawer.posx--;
 						if (TableDrawer.posx == 1) {
 							if (TableDrawer.posy > Info[0].Count - 1) TableDrawer.posy = Info[0].Count - 1;
+							else if (TableDrawer.posy < Info[0].Count - 1 && TableDrawer.posy != this.posy) TableDrawer.posy = this.posy;
 							if (this.posy < Info[0].Count - 1) artists = Info[0].Skip(this.posy - (consoleHeight - 13)).Take(consoleHeight - 11).ToList();
 							else artists = Info[0].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
 						} else
 						if (TableDrawer.posx == 2) {
 							if (TableDrawer.posy > Info[1].Count - 1) TableDrawer.posy = Info[1].Count - 1;
+							else if (TableDrawer.posy < Info[1].Count - 1 && TableDrawer.posy != this.posy) TableDrawer.posy = this.posy;
 							if (this.posy < Info[1].Count - 1) albums = Info[1].Skip(this.posy - (consoleHeight - 13)).Take(consoleHeight - 11).ToList();
 							else albums = Info[1].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
 						} else
 						if (TableDrawer.posx == 3) {
 							if (TableDrawer.posy > Info[2].Count - 1) TableDrawer.posy = Info[2].Count - 1;
+							else if (TableDrawer.posy < Info[2].Count - 1 && TableDrawer.posy != this.posy) TableDrawer.posy = this.posy;
 							if (this.posy < Info[2].Count - 1) songs = Info[2].Skip(this.posy - (consoleHeight - 13)).Take(consoleHeight - 11).ToList();
 							else songs = Info[2].Skip(this.posy - (consoleHeight - 12)).Take(consoleHeight - 11).ToList();
 						}
@@ -118,16 +170,16 @@ namespace MusicPlayer.CLIDisplay
 						tableDrawer = new TableDrawer(artists, albums, songs);
 					} else
 					if (TableDrawer.posx == 3) {
-						Controls.PlaySong(Info[2][TableDrawer.posy]);
+						Controls.PlaySong(songsData.First(x => x.Title==Info[2][TableDrawer.posy]).Id);
 					}
 				} else
 				if (key.Key == ConsoleKey.Enter && key.Modifiers == ConsoleModifiers.Shift) {
 					if (TableDrawer.posx < 3) {
-						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(Info[2][0]);
-						else Controls.PlaySong(Info[2][0]);
+						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(songsData.First(x => x.Title == Info[2][0]).Id);
+						else Controls.PlaySong(songsData.First(x => x.Title == Info[2][0]).Id);
 					} else {
-						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(Info[2][TableDrawer.posy]);
-						else Controls.PlaySong(Info[2][TableDrawer.posy]);
+						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(songsData.First(x => x.Title == Info[2][TableDrawer.posy]).Id);
+						else Controls.PlaySong(songsData.First(x => x.Title == Info[2][TableDrawer.posy]).Id);
 					}
 				} else
 				if (key.Key == ConsoleKey.Spacebar) {
@@ -150,38 +202,9 @@ namespace MusicPlayer.CLIDisplay
 					Console.Clear();
 					Console.WriteLine("Exiting...");
 					Environment.Exit(0);
-				} //else
-				//if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6) {
-				//	TableDrawer.posx = (byte)(key.Key - ConsoleKey.D1);
-				//	Console.Clear();
-				//	MenuSwitch();
-
-				//}
+				} 
 			}
 		}
-
-		//private void MenuSwitch() {
-		//	switch (TableDrawer.posx) {
-		//		case 1:
-		//			//PlayMusic();
-		//			break;
-		//		case 2:
-		//			//PauseMusic();
-		//			break;
-		//		case 3:
-		//			//StopMusic();
-		//			break;
-		//		case 4:
-		//			//NextSong();
-		//			break;
-		//		case 5:
-		//			//PreviousSong();
-		//			break;
-		//		case 6:
-		//			//Exit();
-		//			break;
-		//	}
-		//}
 
 		//private void Menu()
 		//{

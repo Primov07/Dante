@@ -1,5 +1,6 @@
-﻿using System;
-using NAudio.Wave;
+﻿using NAudio.Wave;
+using HttpRequest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,28 +11,28 @@ namespace MusicControl
 {
 	public static class Controls
 	{
-		public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
-		private static string SongURL;
+		//public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
+		private static long SongID;
 		private static Thread songThread;
 		private static bool ManualStop = false;
-		private static List<string> NextQueue = new List<string>();
-		private static List<string> PrevQueue = new List<string>();
-		private static AudioFileReader audioFile;
+		private static List<long> NextQueue = new List<long>();
+		private static List<long> PrevQueue = new List<long>();
+		private static Mp3FileReader audioFile;
 		private static WaveOutEvent output = new WaveOutEvent();
 		public static PlaybackState GetPlaybackState { get { return output.PlaybackState; } }
 		public static float GetVolume { get { return output.Volume; } }
 		public static TimeSpan GetCurrentTime { get { return audioFile.CurrentTime; } }
 		public static TimeSpan GetTotalTime { get { return audioFile.TotalTime; } }
 
-		static public void PlaySong(string SongID) {
+		static public void PlaySong(long SongId) {
 			/// Пуска дадената песен, ако друга песен е пусната я спира и пуска новата
 			ManualStop = false;
 			if (output.PlaybackState == PlaybackState.Playing) {
 				output.Stop();
 			}
 			
-			SongURL = BaseURL + SongID;
-			audioFile = new AudioFileReader(SongURL);
+			SongID = SongId;
+			audioFile = Getter.GetSong(SongId).Result; //new AudioFileReader(SongURL);
 			output.Init(audioFile);
 			output.Play();
 
@@ -61,37 +62,35 @@ namespace MusicControl
 				//songThread.Abort();
 				//songThread.Suspend();
 				ManualStop = true;
-				PrevQueue.Add(SongURL.Replace(BaseURL, ""));
+				PrevQueue.Add(SongID);
 				output.Stop();
 			}
 		}
 
-		static public void QueueSong(string SongID) {
+		static public void QueueSong(long SongId) {
 			/// Добавя песен в опашката
 			if (output.PlaybackState == PlaybackState.Stopped || output.PlaybackState == PlaybackState.Paused) {
-				PlaySong(SongID);
+				PlaySong(SongId);
 			} else {
-				NextQueue.Add(SongID);
+				NextQueue.Add(SongId);
 			}
 		}
 
 		static public void NextSong() {
 			/// Пуска следващата песен от опашката
-			PrevQueue.Add(SongURL.Replace(BaseURL, ""));
+			PrevQueue.Add(SongID);
 			if (NextQueue.Count > 0) {
-				string nextSong = NextQueue[0];
+				long nextSong = NextQueue[0];
 				NextQueue.RemoveAt(0);
 				PlaySong(nextSong);
-			} else {
-				Console.WriteLine("No more songs in the queue.");
 			}
 		}
 
 		static public void PreviousSong() {
 			/// Пуска предишната песен от опашката
 			if (PrevQueue.Count > 0) {
-				NextQueue.Insert(0, SongURL.Replace(BaseURL, ""));
-				string prevSong = PrevQueue[PrevQueue.Count - 1];
+				NextQueue.Insert(0, SongID);
+				long prevSong = PrevQueue[PrevQueue.Count - 1];
 				PrevQueue.RemoveAt(PrevQueue.Count - 1);
 				PlaySong(prevSong);
 			} else {
