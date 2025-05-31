@@ -108,15 +108,15 @@
             albumsData.Name = "albumsData";
             albumsData.ReadOnly = true;
             albumsData.RowHeadersWidth = 51;
-            albumsData.Size = new Size(588, 216);
+            albumsData.Size = new Size(591, 219);
             albumsData.TabIndex = 8;
             // 
             // songsData
             // 
             songsData.BackColor = Color.Firebrick;
-            songsData.Location = new Point(107, 12);
+            songsData.Location = new Point(107, 15);
             songsData.Name = "songsData";
-            songsData.Size = new Size(588, 216);
+            songsData.Size = new Size(591, 216);
             songsData.TabIndex = 9;
             // 
             // Display

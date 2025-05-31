@@ -2,12 +2,14 @@ using Data;
 using HttpRequest;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 namespace GUIDisplay
 {
     public partial class Display : Form
     {
         private List<Song> allSongs;
         private List<Album> allAlbums;
+        private Queue<Song> queue = new Queue<Song>();
         private List<Artist> allArtists;
         private System.Windows.Forms.Timer timer;
         public Display()
@@ -25,11 +27,6 @@ namespace GUIDisplay
 
         }
 
-        private void songViewer1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private async void Display_Load(object sender, EventArgs e)
         {
             await LoadDataSources();
@@ -37,7 +34,7 @@ namespace GUIDisplay
             SetDataGridViews();
         }
         private void SetDataGridViews()
-        {  
+        {
             albumsData.Width = albumsData.RowHeadersWidth + albumsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
             albumsData.Location = new Point(205, 0);
             artistsData.Width = albumsData.RowHeadersWidth + artistsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
@@ -52,9 +49,17 @@ namespace GUIDisplay
         private async Task LoadSongsData()
         {
             List<Song> songs = await Getter.GetSongs();
-            List<SongViewer> viewers = new List<SongViewer>();
-            foreach (var song in songs) viewers.Add(new SongViewer(song));
-            viewers.ForEach(v => songsData.Controls.Add(v));
+            foreach (var song in songs)
+            {
+                SongViewer viewer = new SongViewer(song);
+                songsData.Controls.Add(viewer);
+                viewer.Click += AddToQueue;
+            }
+        }
+        private void AddToQueue(object sender, EventArgs e)
+        {
+            SongViewer viewer = sender as SongViewer;
+            queue.Enqueue(viewer.Song);
         }
         private async Task LoadAlbumsData()
         {
@@ -75,7 +80,7 @@ namespace GUIDisplay
             albumsData.Columns.Add(titleCol);
             albumsData.Columns.Add(songsCol);
 
-            albumsData.CellFormatting += albumsData_CellFormatting;
+            albumsData.CellFormatting += AlbumsDataCellFormatting;
             albumsData.DataSource = await Getter.GetAlbums();
         }
         private async Task LoadArtistsData()
@@ -113,7 +118,7 @@ namespace GUIDisplay
             artistsData.Columns.Add(songsCol);
 
 
-            artistsData.CellFormatting += artistsData_CellFormatting;
+            artistsData.CellFormatting += ArtistsDataCellFormatting;
             artistsData.DataSource = await Getter.GetArtists();
         }
         private void SetVisibilites()
@@ -145,7 +150,7 @@ namespace GUIDisplay
             albumsData.Visible = false;
             artistsData.Visible = false;
         }
-        private async void albumsData_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private async void AlbumsDataCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (albumsData.Columns[e.ColumnIndex].Name == "Songs")
             {
@@ -157,7 +162,7 @@ namespace GUIDisplay
                 }
             }
         }
-        private async void artistsData_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private async void ArtistsDataCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (artistsData.Columns[e.ColumnIndex].Name == "Songs")
             {
