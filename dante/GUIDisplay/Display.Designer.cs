@@ -36,6 +36,7 @@
             btnPlay = new Button();
             albumsData = new DataGridView();
             songsData = new FlowLayoutPanel();
+            lblTime = new Label();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)artistsData).BeginInit();
             ((System.ComponentModel.ISupportInitialize)albumsData).BeginInit();
@@ -43,7 +44,7 @@
             // 
             // trackBar1
             // 
-            trackBar1.Location = new Point(163, 392);
+            trackBar1.Location = new Point(159, 377);
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(469, 56);
             trackBar1.TabIndex = 0;
@@ -119,12 +120,22 @@
             songsData.Size = new Size(591, 216);
             songsData.TabIndex = 9;
             // 
+            // lblTime
+            // 
+            lblTime.AutoSize = true;
+            lblTime.Location = new Point(359, 421);
+            lblTime.Name = "lblTime";
+            lblTime.Size = new Size(44, 20);
+            lblTime.TabIndex = 10;
+            lblTime.Text = "00:00";
+            // 
             // Display
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(800, 450);
+            Controls.Add(lblTime);
             Controls.Add(albumsData);
             Controls.Add(songsData);
             Controls.Add(btnPlay);
@@ -154,5 +165,6 @@
         private SongViewer songViewer1;
         private DataGridView albumsData;
         private FlowLayoutPanel songsData;
+        private Label lblTime;
     }
 }

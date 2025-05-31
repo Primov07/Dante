@@ -1,16 +1,17 @@
 using Data;
 using HttpRequest;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using NAudio.Wave;
 namespace GUIDisplay
 {
     public partial class Display : Form
     {
         private List<Song> allSongs;
         private List<Album> allAlbums;
-        private Queue<Song> queue = new Queue<Song>();
         private List<Artist> allArtists;
+        private List<SongViewer> viewers = new();
+        private Mp3FileReader audioFile = null;
+        private WaveOutEvent output = null;
+        private List<SongViewer> selectedSongs = new();
         private System.Windows.Forms.Timer timer;
         public Display()
         {
@@ -19,19 +20,93 @@ namespace GUIDisplay
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-
+            if (output.PlaybackState == PlaybackState.Playing)
+            {
+                output.Pause();
+                timer.Stop();
+                audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
+                lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+                output.Play();
+                timer.Start();
+            }
+            else if (output.PlaybackState == PlaybackState.Paused)
+            {
+                audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
+                lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+            }
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private async void btnPlay_Click(object sender, EventArgs e)
         {
-
+            selectedSongs = viewers.Where(v => v.IsSelected).ToList();
+            if (selectedSongs.Count != 0)
+            {
+                if (output == null)
+                {
+                    await PlaySong();
+                    btnPlay.Text = "Pause";
+                    timer.Start();
+                }
+                else if (output.PlaybackState == PlaybackState.Playing)
+                {
+                    output.Pause();
+                    timer.Stop();
+                    btnPlay.Text = "Play";
+                }
+                else if (output.PlaybackState == PlaybackState.Paused)
+                {
+                    output.Play();
+                    btnPlay.Text = "Pause";
+                    timer.Start();
+                }
+            }
         }
-
         private async void Display_Load(object sender, EventArgs e)
         {
             await LoadDataSources();
             SetVisibilites();
             SetDataGridViews();
+            SetTimer();
+        }
+        private void SetTimer()
+        {
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 1000;
+            timer.Tick += UpdateTrackBar;
+        }
+        private async void UpdateTrackBar(object sender, EventArgs e)
+        {
+            if (trackBar1.Value + 1 < trackBar1.Maximum)
+            {
+                trackBar1.Value++;
+                lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+            }
+            else if (trackBar1.Value + 1 == trackBar1.Maximum)
+            {
+                selectedSongs.RemoveAt(0);
+                if (selectedSongs.Count != 0)
+                {
+                    await PlaySong();
+                    trackBar1.Maximum = (int)audioFile.TotalTime.TotalSeconds;
+                }
+                else
+                {
+                    audioFile = null;
+                    output = null;
+                    trackBar1.Value++;
+                    btnPlay.Text = "Play";
+                    timer.Stop();
+                }
+            }
+        }
+        private async Task PlaySong()
+        {
+            audioFile = await Getter.GetSong(selectedSongs[0].Song.Id);
+            output = new WaveOutEvent();
+            output.Init(audioFile);
+            output.Play();
+            trackBar1.Value = 0;
+            trackBar1.Maximum = (int)audioFile.TotalTime.TotalSeconds;
         }
         private void SetDataGridViews()
         {
@@ -52,14 +127,9 @@ namespace GUIDisplay
             foreach (var song in songs)
             {
                 SongViewer viewer = new SongViewer(song);
+                viewers.Add(viewer);
                 songsData.Controls.Add(viewer);
-                viewer.Click += AddToQueue;
             }
-        }
-        private void AddToQueue(object sender, EventArgs e)
-        {
-            SongViewer viewer = sender as SongViewer;
-            queue.Enqueue(viewer.Song);
         }
         private async Task LoadAlbumsData()
         {
