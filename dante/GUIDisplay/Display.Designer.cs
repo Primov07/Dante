@@ -81,12 +81,13 @@
             // 
             // artistsData
             // 
+            artistsData.BackgroundColor = SystemColors.ControlDarkDark;
             artistsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            artistsData.Location = new Point(112, 12);
+            artistsData.Location = new Point(107, 12);
             artistsData.Name = "artistsData";
             artistsData.ReadOnly = true;
             artistsData.RowHeadersWidth = 51;
-            artistsData.Size = new Size(446, 193);
+            artistsData.Size = new Size(588, 216);
             artistsData.TabIndex = 4;
             // 
             // btnPlay
@@ -101,20 +102,21 @@
             // 
             // albumsData
             // 
+            albumsData.BackgroundColor = SystemColors.ControlDarkDark;
             albumsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            albumsData.Location = new Point(112, 145);
+            albumsData.Location = new Point(107, 12);
             albumsData.Name = "albumsData";
             albumsData.ReadOnly = true;
             albumsData.RowHeadersWidth = 51;
-            albumsData.Size = new Size(754, 237);
+            albumsData.Size = new Size(588, 216);
             albumsData.TabIndex = 8;
             // 
             // songsData
             // 
             songsData.BackColor = Color.Firebrick;
-            songsData.Location = new Point(638, 234);
+            songsData.Location = new Point(107, 12);
             songsData.Name = "songsData";
-            songsData.Size = new Size(754, 237);
+            songsData.Size = new Size(588, 216);
             songsData.TabIndex = 9;
             // 
             // Display
@@ -132,7 +134,7 @@
             Controls.Add(btnArtists);
             Controls.Add(trackBar1);
             Name = "Display";
-            Text = "Form1";
+            Text = "Display";
             Load += Display_Load;
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ((System.ComponentModel.ISupportInitialize)artistsData).EndInit();

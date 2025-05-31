@@ -23,10 +23,6 @@ namespace GUIDisplay
         {
             this.song = song;
         }
-        private async Task<Image> GetImage()
-        {
-            return Image.FromStream(await Getter.LoadImage(song.Id));
-        }
 
         private async void SongViewer_Load(object sender, EventArgs e)
         {

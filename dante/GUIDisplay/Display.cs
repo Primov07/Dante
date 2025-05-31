@@ -34,11 +34,20 @@ namespace GUIDisplay
         {
             await LoadDataSources();
             SetVisibilites();
+            SetDataGridViews();
+        }
+        private void SetDataGridViews()
+        {  
+            albumsData.Width = albumsData.RowHeadersWidth + albumsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
+            albumsData.Location = new Point(205, 0);
+            artistsData.Width = albumsData.RowHeadersWidth + artistsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
+            artistsData.Location = new Point(130, 0);
         }
         private async Task LoadDataSources()
         {
             await LoadAlbumsData();
             await LoadArtistsData();
+            await LoadSongsData();
         }
         private async Task LoadSongsData()
         {
@@ -103,7 +112,7 @@ namespace GUIDisplay
             artistsData.Columns.Add(albumsCol);
             artistsData.Columns.Add(songsCol);
 
-            
+
             artistsData.CellFormatting += artistsData_CellFormatting;
             artistsData.DataSource = await Getter.GetArtists();
         }
@@ -169,5 +178,6 @@ namespace GUIDisplay
                 }
             }
         }
+
     }
 }
