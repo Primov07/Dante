@@ -64,7 +64,7 @@ namespace HttpRequest
         {
             HttpClient client = new HttpClient();
 
-            var stream = await client.GetStreamAsync($"https://dante.kartof.tk/song/{id}");//Линкът беше https://dante.kartof.tk/image/song/{id} и даваше грешка промених го на https://dante.kartof.tk/song/{id} и работи
+            var stream = await client.GetStreamAsync($"https://dante.kartof.tk/song/{id}");
 			var ms = new MemoryStream();
 
             stream.CopyTo(ms);

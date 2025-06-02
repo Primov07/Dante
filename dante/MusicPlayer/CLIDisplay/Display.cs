@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShellProgressBar;
 
 namespace MusicPlayer.CLIDisplay
 {
@@ -199,12 +200,29 @@ namespace MusicPlayer.CLIDisplay
 					Controls.PreviousSong();
 				} else
 				if (key.Key == ConsoleKey.Escape) {
+					
 					Console.Clear();
 					Console.WriteLine("Exiting...");
 					Environment.Exit(0);
 				} 
 			}
 		}
+
+		//async private void Progress(int currentTick) {
+		//	ProgressBar progressBar = new ProgressBar(1000, "", new ProgressBarOptions {
+		//		ForegroundColor = ConsoleColor.Green,
+		//		BackgroundColor = ConsoleColor.DarkGray,
+		//		ProgressCharacter = '─',
+		//		//ProgressBarOnBottom = true,
+		//		DisableBottomPercentage = true,
+		//		DisplayTimeInRealTime = false,
+		//	});
+
+		//	for (int i = 0; i < 1000; i++) {
+		//		progressBar.Tick();
+		//		await Task.Delay(100);
+		//	}
+		//}
 
 		//private void Menu()
 		//{
