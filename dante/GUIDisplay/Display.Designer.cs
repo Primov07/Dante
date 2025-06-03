@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Display));
             trackBar1 = new TrackBar();
             btnArtists = new Button();
             btnAlbums = new Button();
@@ -144,6 +145,7 @@
             Controls.Add(btnAlbums);
             Controls.Add(btnArtists);
             Controls.Add(trackBar1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Display";
             Text = "Display";
             Load += Display_Load;
