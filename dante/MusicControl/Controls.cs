@@ -12,7 +12,7 @@ namespace MusicControl
 	public static class Controls
 	{
 		//public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
-		private static long SongID;
+		public static long SongID { get; private set; }
 		private static Thread songThread;
 		private static bool ManualStop = false;
 		private static List<long> NextQueue = new List<long>();
