@@ -22,8 +22,7 @@ namespace MusicPlayer.CLIDisplay
 
 		private static List<List<string>> Info = new List<List<string>>();
 		private static List<string>[] Titles = new List<string>[3];
-		//private static List<string> albums;
-		//private static List<string> songs;
+		private static TableDrawer tableDrawer;
 		private static int consoleHeight = Console.WindowHeight;
 		private static byte posy = 0;
 
@@ -62,10 +61,46 @@ namespace MusicPlayer.CLIDisplay
 			}
 		}
 
+		private void UpdateTableOnY() {
+			if (posy < (consoleHeight - 12)) TableDrawer.posy = posy;
+			else if (posy > (consoleHeight - 13) && posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
+			else TableDrawer.posy = (consoleHeight - 12);
+
+			if (TableDrawer.posx == 1) {
+				InfoUpdateAlbums();
+				InfoUpdateSongs();
+				Titles[1] = getUpdatedList(1);
+				Titles[2] = getUpdatedList(2);
+			} else
+			if (TableDrawer.posx == 2) {
+				InfoUpdateSongs();
+				Titles[2] = getUpdatedList(2);
+			}
+
+			Console.Clear();
+			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+		}
+
+		private void UpdateTableOnX() {
+			if (TableDrawer.posy > Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = Info[TableDrawer.posx - 1].Count - 1;
+			else if (TableDrawer.posy < Info[TableDrawer.posx - 1].Count - 1 && TableDrawer.posy != posy) TableDrawer.posy = posy;
+			if (posy < Info[TableDrawer.posx - 1].Count - 1) Titles[TableDrawer.posx - 1] = getUpdatedListSkip13(TableDrawer.posx - 1);
+			else Titles[TableDrawer.posx - 1] = getUpdatedListSkip12(TableDrawer.posx - 1);
+
+			Console.Clear();
+			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+		}
+
+		private void PlaySong(int pos) {
+			Controls.PlaySong(songsData.First(x => x.Title == Info[2][pos]).Id);
+			Console.Clear();
+			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+			ProgressBar.Tick();
+		}
+
 		private void MenuFunc() {
 			Console.CursorVisible = false;
-			TableDrawer tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
-			
+			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
 
 			while (true) {
 
@@ -75,23 +110,7 @@ namespace MusicPlayer.CLIDisplay
 
 					if (posy > 0) {
 						posy--;
-						if (posy < (consoleHeight - 12)) TableDrawer.posy = posy;
-						else if (posy > (consoleHeight - 13) && posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
-						else TableDrawer.posy = (consoleHeight - 12);
-
-						if (TableDrawer.posx == 1) {
-							InfoUpdateAlbums();
-							InfoUpdateSongs();
-							Titles[1] = getUpdatedList(1);
-							Titles[2] = getUpdatedList(2);
-						} else
-						if (TableDrawer.posx == 2) {
-							InfoUpdateSongs();
-							Titles[2] = getUpdatedList(2);
-						}
-
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+						UpdateTableOnY();
 					}
 				} else
 				if (key.Key == ConsoleKey.S) {
@@ -99,70 +118,32 @@ namespace MusicPlayer.CLIDisplay
 
 					if (posy < Info[TableDrawer.posx - 1].Count - 1) {
 						posy++;
-						if (posy < (consoleHeight - 12)) TableDrawer.posy = posy;
-						else if (posy > (consoleHeight - 13) && posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
-						else TableDrawer.posy = (consoleHeight - 12);
-
-						if (TableDrawer.posx == 1) {
-							InfoUpdateAlbums();
-							InfoUpdateSongs();
-							Titles[1] = Info[1].Take(consoleHeight - 11).ToList();
-							Titles[2] = Info[2].Take(consoleHeight - 11).ToList();
-						} else
-						if (TableDrawer.posx == 2) {
-							InfoUpdateSongs();
-							Titles[2] = Info[2].Take(consoleHeight - 11).ToList();
-						}
-
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+						UpdateTableOnY();
 					}
 				} else
 				if (key.Key == ConsoleKey.A) {
 					if (TableDrawer.posx > 1) {
 						TableDrawer.posx--;
-
-						if (TableDrawer.posy > Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = Info[TableDrawer.posx - 1].Count - 1;
-						else if (TableDrawer.posy < Info[TableDrawer.posx - 1].Count - 1 && TableDrawer.posy != posy) TableDrawer.posy = posy;
-						if (posy < Info[TableDrawer.posx - 1].Count - 1) Titles[TableDrawer.posx - 1] = getUpdatedListSkip13(TableDrawer.posx - 1);
-						else Titles[TableDrawer.posx - 1] = getUpdatedListSkip12(TableDrawer.posx - 1);
-
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+						UpdateTableOnX();
 					}
 				} else
 				if (key.Key == ConsoleKey.D) {
 					if (TableDrawer.posx < 3) {
 						TableDrawer.posx++;
-
-						if (TableDrawer.posy > Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = Info[TableDrawer.posx - 1].Count - 1;
-						if (posy < Info[TableDrawer.posx - 1].Count - 1) Titles[TableDrawer.posx - 1] = getUpdatedListSkip13(TableDrawer.posx - 1);
-						else Titles[TableDrawer.posx - 1] = getUpdatedListSkip12(TableDrawer.posx - 1);
-
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+						UpdateTableOnX();
 					}
 				} else
 				if (key.Key == ConsoleKey.Enter && key.Modifiers != ConsoleModifiers.Shift) {
-					if (TableDrawer.posx == 3) {
-						Controls.PlaySong(songsData.First(x => x.Title == Info[2][TableDrawer.posy]).Id);
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
-						ProgressBar.Tick();
-					} else {
-						Controls.PlaySong(songsData.First(x => x.Title == Info[2][0]).Id);
-						Console.Clear();
-						tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
-						ProgressBar.Tick();
-					}
+					if (TableDrawer.posx == 3) PlaySong(TableDrawer.posy);
+					else PlaySong(0);
 				} else
 				if (key.Key == ConsoleKey.Enter && key.Modifiers == ConsoleModifiers.Shift) {
 					if (TableDrawer.posx < 3) {
 						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(songsData.First(x => x.Title == Info[2][0]).Id);
-						else Controls.PlaySong(songsData.First(x => x.Title == Info[2][0]).Id);
+						else PlaySong(0);
 					} else {
 						if (Controls.GetPlaybackState.ToString() == "Playing") Controls.QueueSong(songsData.First(x => x.Title == Info[2][TableDrawer.posy]).Id);
-						else Controls.PlaySong(songsData.First(x => x.Title == Info[2][TableDrawer.posy]).Id);
+						else PlaySong(TableDrawer.posy);
 					}
 				} else
 				if (key.Key == ConsoleKey.Spacebar) {
