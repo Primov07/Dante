@@ -40,6 +40,5 @@ namespace GUIDisplay
             }
             return resized;
         }
-
     }
 }

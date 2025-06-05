@@ -38,10 +38,11 @@
             lblString.Font = new Font("Lucida Sans Unicode", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
             lblString.Location = new Point(0, 89);
             lblString.Name = "lblString";
-            lblString.Size = new Size(135, 34);
+            lblString.Size = new Size(135, 52);
             lblString.TabIndex = 0;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
+            lblString.Click += lblString_Click;
             // 
             // pictureBox1
             // 
@@ -58,7 +59,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(lblString);
             Name = "AlbumViewer";
-            Size = new Size(135, 123);
+            Size = new Size(135, 141);
             Load += AlbumViewer_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

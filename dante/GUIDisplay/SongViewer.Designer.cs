@@ -37,16 +37,16 @@
             // 
             pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(119, 69);
+            pictureBox1.Size = new Size(119, 78);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // lblString
             // 
             lblString.Font = new Font("Lucida Sans Unicode", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            lblString.Location = new Point(3, 69);
+            lblString.Location = new Point(3, 84);
             lblString.Name = "lblString";
-            lblString.Size = new Size(117, 64);
+            lblString.Size = new Size(117, 66);
             lblString.TabIndex = 1;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
@@ -59,7 +59,7 @@
             Controls.Add(lblString);
             Controls.Add(pictureBox1);
             Name = "SongViewer";
-            Size = new Size(125, 134);
+            Size = new Size(125, 150);
             Load += SongViewer_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
