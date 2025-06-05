@@ -50,11 +50,31 @@ namespace HttpRequest
 
             return albums;
         }
-        public async static Task<MemoryStream> LoadImage(long id)
+        public async static Task<MemoryStream> LoadSongImage(long id)
         {
             HttpClient client = new HttpClient();
 
             var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/song/{id}");
+            var ms = new MemoryStream(data);
+
+            return ms;
+
+        }
+        public async static Task<MemoryStream> LoadAlbumImage(long id)
+        {
+            HttpClient client = new HttpClient();
+
+            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/album/{id}");
+            var ms = new MemoryStream(data);
+
+            return ms;
+
+        }
+        public async static Task<MemoryStream> LoadArtistImage(long id)
+        {
+            HttpClient client = new HttpClient();
+
+            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/artist/{id}");
             var ms = new MemoryStream(data);
 
             return ms;

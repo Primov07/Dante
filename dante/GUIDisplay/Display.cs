@@ -6,9 +6,11 @@ namespace GUIDisplay
     public partial class Display : Form
     {
         private List<Song> allSongs;
-        private List<Album> allAlbums;
-        private List<Artist> allArtists;
-        private List<SongViewer> viewers = new();
+        internal List<Album> allAlbums;
+        internal List<Artist> allArtists;
+        private List<SongViewer> songViewers = new();
+        private List<AlbumViewer> albumViewers = new();
+        private List<ArtistViewer> artistViewers = new();
         private Mp3FileReader audioFile = null;
         private WaveOutEvent output = null;
         private List<SongViewer> selectedSongs = new();
@@ -38,7 +40,7 @@ namespace GUIDisplay
 
         private async void btnPlay_Click(object sender, EventArgs e)
         {
-            selectedSongs = viewers.Where(v => v.IsSelected).ToList();
+            selectedSongs = songViewers.Where(v => v.IsSelected).ToList();
             if (selectedSongs.Count != 0)
             {
                 if (output == null)
@@ -64,9 +66,23 @@ namespace GUIDisplay
         private async void Display_Load(object sender, EventArgs e)
         {
             await LoadDataSources();
-            SetVisibilites();
-            SetDataGridViews();
             SetTimer();
+            SetButtonColors();
+            SetVolumeBar();
+            this.BackColor = Color.FromArgb(77, 77, 77);
+            data.BackColor = Color.FromArgb(127, 127, 127);
+        }
+        private void SetVolumeBar()
+        {
+            volumeBar.Minimum = 0;
+            volumeBar.Maximum = 100;
+            volumeBar.Value = 100;
+        }
+        private void SetButtonColors()
+        {
+            btnArtists.BackColor = Color.FromArgb(127, 127, 127);
+            btnAlbums.BackColor = Color.FromArgb(127, 127, 127);
+            btnSongs.BackColor = Color.FromArgb(127, 127, 127);
         }
         private void SetTimer()
         {
@@ -104,155 +120,100 @@ namespace GUIDisplay
             audioFile = await Getter.GetSong(selectedSongs[0].Song.Id);
             output = new WaveOutEvent();
             output.Init(audioFile);
+            output.Volume = 1f;
             output.Play();
             trackBar1.Value = 0;
             trackBar1.Maximum = (int)audioFile.TotalTime.TotalSeconds;
         }
-        private void SetDataGridViews()
-        {
-            albumsData.Width = albumsData.RowHeadersWidth + albumsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
-            albumsData.Location = new Point(205, 0);
-            artistsData.Width = albumsData.RowHeadersWidth + artistsData.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width);
-            artistsData.Location = new Point(130, 0);
-        }
         private async Task LoadDataSources()
         {
-            await LoadAlbumsData();
-            await LoadArtistsData();
-            await LoadSongsData();
+            await GetData();
+            LoadData();
+            ShowSongsData();
         }
-        private async Task LoadSongsData()
-        {
-            List<Song> songs = await Getter.GetSongs();
-            foreach (var song in songs)
-            {
-                SongViewer viewer = new SongViewer(song);
-                viewers.Add(viewer);
-                songsData.Controls.Add(viewer);
-            }
-        }
-        private async Task LoadAlbumsData()
+        private async Task GetData()
         {
             allSongs = await Getter.GetSongs();
-            albumsData.AutoGenerateColumns = false;
-            var titleCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Title",
-                HeaderText = "Title",
-                Name = "Title"
-            };
-            var songsCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Songs",
-                HeaderText = "Songs",
-                Name = "Songs"
-            };
-            albumsData.Columns.Add(titleCol);
-            albumsData.Columns.Add(songsCol);
-
-            albumsData.CellFormatting += AlbumsDataCellFormatting;
-            albumsData.DataSource = await Getter.GetAlbums();
-        }
-        private async Task LoadArtistsData()
-        {
-            allAlbums = await Getter.GetAlbums();
             allArtists = await Getter.GetArtists();
-            artistsData.AutoGenerateColumns = false;
-            var nameCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Name",
-                HeaderText = "Name",
-                Name = "Name"
-            };
-            var ratingCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Rating",
-                HeaderText = "Rating",
-                Name = "Rating"
-            };
-            var albumsCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Albums",
-                HeaderText = "Albums",
-                Name = "Albums"
-            };
-            var songsCol = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Songs",
-                HeaderText = "Songs",
-                Name = "Songs"
-            };
-            artistsData.Columns.Add(nameCol);
-            artistsData.Columns.Add(ratingCol);
-            artistsData.Columns.Add(albumsCol);
-            artistsData.Columns.Add(songsCol);
-
-
-            artistsData.CellFormatting += ArtistsDataCellFormatting;
-            artistsData.DataSource = await Getter.GetArtists();
+            allAlbums = await Getter.GetAlbums();
         }
-        private void SetVisibilites()
+        private void LoadData()
         {
-            songsData.Visible = true;
-            albumsData.Visible = false;
-            artistsData.Visible = false;
+            LoadSongsData();
+            LoadArtistsData();
+            LoadAlbumsData();
+        }
+        private void LoadSongsData(long albumId = -1)
+        {
+            allSongs.ForEach(s => songViewers.Add(new SongViewer(s)));
+        }
+        private void LoadArtistsData()
+        {
+            allArtists.ForEach(a => artistViewers.Add(new ArtistViewer(a)));
+        }
+        private void LoadAlbumsData(long artistId = -1)
+        {
+            allAlbums.ForEach(a => albumViewers.Add(new AlbumViewer(a)));
+        }
+        internal void ShowSongsData(long albumId = -1)
+        {
+            data.Controls.Clear();
+            List<SongViewer> filteredSongs = new();
+            Album? album = allAlbums.FirstOrDefault(a => a.Id == albumId);
+            if (album != null) filteredSongs = songViewers.Where(s => album.Songs.Contains(s.Song.Id)).ToList();
+            else filteredSongs = songViewers;
+            filteredSongs.ForEach(s => data.Controls.Add(s));
+        }
+        internal void ShowArtistsData()
+        {
+            data.Controls.Clear();
+            artistViewers.ForEach(a => data.Controls.Add(a));
+        }
+        internal void ShowAlbumsData(long artistId = -1)
+        {
+            data.Controls.Clear();
+            List<AlbumViewer> filteredAlbums = new();
+            Artist? artist = allArtists.FirstOrDefault(a => a.Id == artistId);
+            if (artist != null) filteredAlbums = albumViewers.Where(a => artist.Albums.Contains(a.Album.Id)).ToList();
+            else filteredAlbums = albumViewers;
+            filteredAlbums.ForEach(a => data.Controls.Add(a));
         }
         private void btnAlbums_Click(object sender, EventArgs e)
         {
-            albumsData.Visible = true;
-            songsData.Visible = false;
-            artistsData.Visible = false;
-            btnPlay.Visible = false;
+            if (output == null)
+            {
+                lblTime.Visible = false;
+                trackBar1.Visible = false;
+                btnPlay.Visible = false;
+                volumeBar.Visible = false;
+            }
+            ShowAlbumsData();
         }
 
         private void btnArtists_Click(object sender, EventArgs e)
         {
-            artistsData.Visible = true;
-            songsData.Visible = false;
-            albumsData.Visible = false;
-            btnPlay.Visible = false;
+            if (output == null)
+            {
+                lblTime.Visible = false;
+                trackBar1.Visible = false;
+                btnPlay.Visible = false;
+                volumeBar.Visible = false;
+            }
+            ShowArtistsData();
         }
 
         private void btnSongs_Click(object sender, EventArgs e)
         {
+            lblTime.Visible = true;
+            trackBar1.Visible = true;
             btnPlay.Visible = true;
-            songsData.Visible = true;
-            albumsData.Visible = false;
-            artistsData.Visible = false;
-        }
-        private async void AlbumsDataCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (albumsData.Columns[e.ColumnIndex].Name == "Songs")
-            {
-                if (e.Value is List<long> songs)
-                {
-                    List<string> titles = allSongs.Where(s => songs.Contains(s.Id)).Select(s => "\"" + s.Title + "\"").ToList();
-                    e.Value = string.Join(", ", titles);
-                    e.FormattingApplied = true;
-                }
-            }
-        }
-        private async void ArtistsDataCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (artistsData.Columns[e.ColumnIndex].Name == "Songs")
-            {
-                if (e.Value is List<long> songs)
-                {
-                    List<string> titles = allSongs.Where(s => songs.Contains(s.Id)).Select(s => "\"" + s.Title + "\"").ToList();
-                    e.Value = string.Join(", ", titles);
-                    e.FormattingApplied = true;
-                }
-            }
-            if (artistsData.Columns[e.ColumnIndex].Name == "Albums")
-            {
-                if (e.Value is List<long> albums)
-                {
-                    List<string> titles = allAlbums.Where(a => albums.Contains(a.Id)).Select(a => "\"" + a.Title + "\"").ToList();
-                    e.Value = string.Join(", ", titles);
-                    e.FormattingApplied = true;
-                }
-            }
+            volumeBar.Visible = true;
+            ShowSongsData();
         }
 
+        private void volumeBar_Scroll(object sender, EventArgs e)
+        {
+            output.Volume = volumeBar.Value / 100f;
+        }
     }
 }

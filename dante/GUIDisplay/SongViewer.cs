@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Data;
 using HttpRequest;
 
@@ -7,6 +6,8 @@ namespace GUIDisplay
 {
     public partial class SongViewer : UserControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Song Song { get; set; }
         private bool isSelected = false;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsSelected
@@ -15,11 +16,9 @@ namespace GUIDisplay
             set
             {
                 isSelected = value;
-                this.BackColor = isSelected ? Color.LightBlue : Color.RosyBrown;
+                this.BackColor = isSelected ? Color.LightBlue : Color.FromArgb(240, 177, 29);
             }
         }
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Song Song { get; set; }
         private SongViewer()
         {
             InitializeComponent();
@@ -36,13 +35,14 @@ namespace GUIDisplay
         }
         private async void SongViewer_Load(object sender, EventArgs e)
         {
-            lblString.Text = Song.ToString();
+            if (ParentForm is Display display) lblString.Text = Song.ToString() + display.allArtists.First(a => a.Songs.Contains(Song.Id)).Name;
             pictureBox1.Image = await ResizeImage();
+            this.BackColor = Color.FromArgb(59, 139, 161);
         }
         private async Task<Bitmap> ResizeImage()
         {
             Bitmap resized = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            Image image = Image.FromStream(await Getter.LoadImage(Song.Id));
+            Image image = Image.FromStream(await Getter.LoadSongImage(Song.Id));
             using (Graphics g = Graphics.FromImage(resized))
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
