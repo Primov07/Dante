@@ -35,18 +35,18 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(21, 3);
+            pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(80, 61);
+            pictureBox1.Size = new Size(117, 81);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // lblString
             // 
             lblString.Font = new Font("Lucida Sans Unicode", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            lblString.Location = new Point(0, 77);
+            lblString.Location = new Point(0, 87);
             lblString.Name = "lblString";
-            lblString.Size = new Size(123, 46);
+            lblString.Size = new Size(123, 36);
             lblString.TabIndex = 1;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
