@@ -33,19 +33,17 @@
             btnArtists = new Button();
             btnAlbums = new Button();
             btnSongs = new Button();
-            artistsData = new DataGridView();
             btnPlay = new Button();
-            albumsData = new DataGridView();
-            songsData = new FlowLayoutPanel();
+            data = new FlowLayoutPanel();
             lblTime = new Label();
+            volumeBar = new TrackBar();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)artistsData).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)albumsData).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             SuspendLayout();
             // 
             // trackBar1
             // 
-            trackBar1.Location = new Point(159, 377);
+            trackBar1.Location = new Point(335, 222);
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(469, 56);
             trackBar1.TabIndex = 0;
@@ -53,19 +51,25 @@
             // 
             // btnArtists
             // 
-            btnArtists.Location = new Point(12, 304);
+            btnArtists.BackColor = SystemColors.ControlDarkDark;
+            btnArtists.FlatAppearance.BorderColor = Color.FromArgb(64, 64, 64);
+            btnArtists.FlatStyle = FlatStyle.Flat;
+            btnArtists.Font = new Font("Lucida Sans Unicode", 24F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            btnArtists.Location = new Point(-3, -2);
             btnArtists.Name = "btnArtists";
-            btnArtists.Size = new Size(94, 29);
+            btnArtists.Size = new Size(242, 106);
             btnArtists.TabIndex = 1;
             btnArtists.Text = "Artists";
-            btnArtists.UseVisualStyleBackColor = true;
+            btnArtists.UseVisualStyleBackColor = false;
             btnArtists.Click += btnArtists_Click;
             // 
             // btnAlbums
             // 
-            btnAlbums.Location = new Point(12, 353);
+            btnAlbums.FlatStyle = FlatStyle.Flat;
+            btnAlbums.Font = new Font("Lucida Sans Unicode", 24F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            btnAlbums.Location = new Point(-3, 101);
             btnAlbums.Name = "btnAlbums";
-            btnAlbums.Size = new Size(94, 29);
+            btnAlbums.Size = new Size(242, 106);
             btnAlbums.TabIndex = 2;
             btnAlbums.Text = "Albums";
             btnAlbums.UseVisualStyleBackColor = true;
@@ -73,74 +77,64 @@
             // 
             // btnSongs
             // 
-            btnSongs.Location = new Point(12, 404);
+            btnSongs.FlatStyle = FlatStyle.Flat;
+            btnSongs.Font = new Font("Lucida Sans Unicode", 24F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            btnSongs.Location = new Point(-3, 197);
             btnSongs.Name = "btnSongs";
-            btnSongs.Size = new Size(94, 29);
+            btnSongs.Size = new Size(242, 106);
             btnSongs.TabIndex = 3;
             btnSongs.Text = "Songs";
             btnSongs.UseVisualStyleBackColor = true;
             btnSongs.Click += btnSongs_Click;
             // 
-            // artistsData
-            // 
-            artistsData.BackgroundColor = SystemColors.ControlDarkDark;
-            artistsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            artistsData.Location = new Point(107, 12);
-            artistsData.Name = "artistsData";
-            artistsData.ReadOnly = true;
-            artistsData.RowHeadersWidth = 51;
-            artistsData.Size = new Size(588, 216);
-            artistsData.TabIndex = 4;
-            // 
             // btnPlay
             // 
-            btnPlay.Location = new Point(661, 392);
+            btnPlay.Location = new Point(529, 260);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(94, 29);
+            btnPlay.Size = new Size(73, 29);
             btnPlay.TabIndex = 6;
             btnPlay.Text = "Play";
             btnPlay.UseVisualStyleBackColor = true;
             btnPlay.Click += btnPlay_Click;
             // 
-            // albumsData
+            // data
             // 
-            albumsData.BackgroundColor = SystemColors.ControlDarkDark;
-            albumsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            albumsData.Location = new Point(107, 12);
-            albumsData.Name = "albumsData";
-            albumsData.ReadOnly = true;
-            albumsData.RowHeadersWidth = 51;
-            albumsData.Size = new Size(591, 219);
-            albumsData.TabIndex = 8;
-            // 
-            // songsData
-            // 
-            songsData.BackColor = Color.Firebrick;
-            songsData.Location = new Point(107, 15);
-            songsData.Name = "songsData";
-            songsData.Size = new Size(591, 216);
-            songsData.TabIndex = 9;
+            data.AutoScroll = true;
+            data.BackColor = Color.Firebrick;
+            data.Location = new Point(356, 12);
+            data.Name = "data";
+            data.Size = new Size(435, 167);
+            data.TabIndex = 9;
             // 
             // lblTime
             // 
             lblTime.AutoSize = true;
-            lblTime.Location = new Point(359, 421);
+            lblTime.Location = new Point(544, 199);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(44, 20);
             lblTime.TabIndex = 10;
             lblTime.Text = "00:00";
+            // 
+            // volumeBar
+            // 
+            volumeBar.Location = new Point(833, 20);
+            volumeBar.Name = "volumeBar";
+            volumeBar.Orientation = Orientation.Vertical;
+            volumeBar.RightToLeft = RightToLeft.Yes;
+            volumeBar.Size = new Size(56, 258);
+            volumeBar.TabIndex = 11;
+            volumeBar.Scroll += volumeBar_Scroll;
             // 
             // Display
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(901, 301);
+            Controls.Add(volumeBar);
             Controls.Add(lblTime);
-            Controls.Add(albumsData);
-            Controls.Add(songsData);
+            Controls.Add(data);
             Controls.Add(btnPlay);
-            Controls.Add(artistsData);
             Controls.Add(btnSongs);
             Controls.Add(btnAlbums);
             Controls.Add(btnArtists);
@@ -150,8 +144,7 @@
             Text = "Display";
             Load += Display_Load;
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)artistsData).EndInit();
-            ((System.ComponentModel.ISupportInitialize)albumsData).EndInit();
+            ((System.ComponentModel.ISupportInitialize)volumeBar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,11 +155,10 @@
         private Button btnArtists;
         private Button btnAlbums;
         private Button btnSongs;
-        private DataGridView artistsData;
         private Button btnPlay;
         private SongViewer songViewer1;
-        private DataGridView albumsData;
-        private FlowLayoutPanel songsData;
+        private FlowLayoutPanel data;
         private Label lblTime;
+        private TrackBar volumeBar;
     }
 }

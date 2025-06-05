@@ -1,6 +1,6 @@
 ﻿namespace GUIDisplay
 {
-    partial class SongViewer
+    partial class ArtistViewer
     {
         /// <summary> 
         /// Required designer variable.
@@ -35,7 +35,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(20, 3);
+            pictureBox1.Location = new Point(21, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(80, 61);
             pictureBox1.TabIndex = 0;
@@ -44,24 +44,22 @@
             // lblString
             // 
             lblString.Font = new Font("Lucida Sans Unicode", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            lblString.Location = new Point(3, 57);
+            lblString.Location = new Point(0, 77);
             lblString.Name = "lblString";
-            lblString.Size = new Size(117, 76);
+            lblString.Size = new Size(123, 46);
             lblString.TabIndex = 1;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // SongViewer
+            // ArtistViewer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.RosyBrown;
-            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(lblString);
             Controls.Add(pictureBox1);
-            Name = "SongViewer";
-            Size = new Size(123, 132);
-            Load += SongViewer_Load;
+            Name = "ArtistViewer";
+            Size = new Size(123, 123);
+            Load += ArtistViewer_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
