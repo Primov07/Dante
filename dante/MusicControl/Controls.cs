@@ -13,6 +13,7 @@ namespace MusicControl
 	{
 		//public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
 		public static long SongID { get; private set; }
+
 		private static Thread songThread;
 		private static bool ManualStop = false;
 		private static List<long> NextQueue = new List<long>();
@@ -26,22 +27,20 @@ namespace MusicControl
 
 		static public void PlaySong(long SongId) {
 			/// Пуска дадената песен, ако друга песен е пусната я спира и пуска новата
+			//if (output.PlaybackState == PlaybackState.Playing || output.PlaybackState == PlaybackState.Paused) {
+			//output.Stop();
+			//}
+			StopSong();
 			ManualStop = false;
-			if (output.PlaybackState == PlaybackState.Playing) {
-				output.Stop();
-			}
-			
+
 			SongID = SongId;
-			audioFile = Getter.GetSong(SongId).Result; //new AudioFileReader(SongURL);
+			audioFile = Getter.GetSong(SongId).Result;
 			output.Init(audioFile);
 			output.Play();
 
 			songThread = new Thread(() => {
 				while (output.PlaybackState != PlaybackState.Stopped)
 				{
-					//Console.WriteLine(output.PlaybackState);
-					//Console.WriteLine(TimeSpan.FromSeconds(audioFile.CurrentTime.TotalSeconds));
-					//Console.WriteLine(output.Volume);
 					Thread.Sleep(1500);
 				}
 				if (!ManualStop) NextSong();
@@ -58,9 +57,7 @@ namespace MusicControl
 
 		static public void StopSong() {
 			/// Спира песента
-			if (output.PlaybackState == PlaybackState.Playing) {
-				//songThread.Abort();
-				//songThread.Suspend();
+			if (output.PlaybackState == PlaybackState.Playing || output.PlaybackState == PlaybackState.Paused) {
 				ManualStop = true;
 				PrevQueue.Add(SongID);
 				output.Stop();
@@ -93,8 +90,6 @@ namespace MusicControl
 				long prevSong = PrevQueue[PrevQueue.Count - 1];
 				PrevQueue.RemoveAt(PrevQueue.Count - 1);
 				PlaySong(prevSong);
-			} else {
-				Console.WriteLine("No previous song in the queue.");
 			}
 		}
 
@@ -107,16 +102,12 @@ namespace MusicControl
 
 		static public void VolumeUp(float amount) {
 			/// Увеличава звука, amount е между 0.0 и 1.0
-			if (output.Volume < 1.0f) {
-				output.Volume += amount;
-			}
+			if (output.Volume < 1.0f) output.Volume += amount;
 		}
 
 		static public void VolumeDown(float amount) {
 			/// Намалява звука, amount е между 0.0 и 1.0
-			if (output.Volume > 0.0f) {
-				output.Volume -= amount;
-			}
+			if (output.Volume > 0.0f) output.Volume -= amount;
 		}
 
 		static public void SeekBackward(double durationInSeconds) {

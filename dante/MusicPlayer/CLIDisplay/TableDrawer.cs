@@ -21,8 +21,6 @@ namespace MusicPlayer.CLIDisplay
 		private string artistColor = "\u001b[31m";
 		private string albumColor = "\u001b[36m";
 		private string songColor = "\u001b[33m";
-		public Thread thread;
-		private ProgressBar progressBar;
 		private bool run = true;
 
 		public TableDrawer(List<string> artists, List<string> albums, List<string> songs) {
@@ -65,8 +63,8 @@ namespace MusicPlayer.CLIDisplay
 			}
 			Console.Write(artistColor + "└" + new string('─', artistsWidth - 3) + "┘" + albumColor + "└" + new string('─', albumsWidth - 2) + "┘" + songColor + "└" + new string('─', songsWidth - 2) + "┘" + "\u001b[0m");
 
-			if (Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Playing || Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Paused) progressBar = new ProgressBar();
-			else Console.WriteLine(new string('\n', 3));
+			if (Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Playing || Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Paused) new ProgressBar();
+			else Console.WriteLine("\n\n\n 0:00 \u001b[90m├" + new string('─', consoleWidth-15) + "┤\u001b[0m 0:00");
 
 			Console.WriteLine(new string('\n', consoleHeight - (n + 9)) + new string(' ', 18) + "\u001b[7mRight\u001b[0m  Forward     \u001b[7mTab\u001b[0m        Next        \u001b[7mSpace\u001b[0m    Pause/Resume    \u001b[7mEnter\u001b[0m      Select  ");
 			Console.Write(new string(' ', 18) + "\u001b[7mLeft\u001b[0m   Backward    \u001b[7mShift+Tab\u001b[0m  Previous    \u001b[7mUp/Down\u001b[0m  Navigate        \u001b[7mBackspace\u001b[0m  Back");

@@ -19,9 +19,9 @@ namespace MusicPlayer.CLIDisplay
 		internal static List<Artist> artistsData = Getter.GetArtists().Result;
 		internal static List<Album> albumsData = Getter.GetAlbums().Result;
 		internal static List<Song> songsData = Getter.GetSongs().Result;
+		internal static List<string>[] Titles = new List<string>[3];
 
 		private static List<List<string>> Info = new List<List<string>>();
-		private static List<string>[] Titles = new List<string>[3];
 		private static TableDrawer tableDrawer;
 		private static int consoleHeight = Console.WindowHeight;
 		private static byte posy = 0;
@@ -87,6 +87,18 @@ namespace MusicPlayer.CLIDisplay
 			if (posy < Info[TableDrawer.posx - 1].Count - 1) Titles[TableDrawer.posx - 1] = getUpdatedListSkip13(TableDrawer.posx - 1);
 			else Titles[TableDrawer.posx - 1] = getUpdatedListSkip12(TableDrawer.posx - 1);
 
+			if (TableDrawer.posx == 1) {
+				InfoUpdateAlbums();
+				InfoUpdateSongs();
+				Titles[1] = getUpdatedList(1);
+				Titles[2] = getUpdatedList(2);
+			} else
+			if (TableDrawer.posx == 2) {
+				InfoUpdateSongs();
+				Titles[2] = getUpdatedList(2);
+			}
+
+
 			Console.Clear();
 			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
 		}
@@ -95,7 +107,6 @@ namespace MusicPlayer.CLIDisplay
 			Controls.PlaySong(songsData.First(x => x.Title == Info[2][pos]).Id);
 			Console.Clear();
 			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
-			ProgressBar.Tick();
 		}
 
 		private void MenuFunc() {
@@ -154,9 +165,17 @@ namespace MusicPlayer.CLIDisplay
 				else if (key.Key == ConsoleKey.RightArrow) Controls.SeekForward(5);
 				else if (key.Key == ConsoleKey.UpArrow) Controls.VolumeUp(0.05f);
 				else if (key.Key == ConsoleKey.DownArrow) Controls.VolumeDown(0.05f);
-				else if (key.Key == ConsoleKey.Tab && key.Modifiers != ConsoleModifiers.Shift) Controls.NextSong();
-				else if (key.Modifiers == ConsoleModifiers.Shift && key.Key == ConsoleKey.Tab) Controls.PreviousSong();
-				else if (key.Key == ConsoleKey.Escape) {
+				else if (key.Key == ConsoleKey.Tab && key.Modifiers != ConsoleModifiers.Shift) {
+					Controls.NextSong();
+					Console.Clear();
+					new TableDrawer(Titles[0], Titles[1], Titles[2]);
+				} else
+				if (key.Key == ConsoleKey.Tab && key.Modifiers == ConsoleModifiers.Shift) { 
+					Controls.PreviousSong();
+					Console.Clear();
+					new TableDrawer(Titles[0], Titles[1], Titles[2]);
+				} else
+				if (key.Key == ConsoleKey.Escape) {
 					Console.Clear();
 					Console.WriteLine("Exiting...");
 					Environment.Exit(0);
