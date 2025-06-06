@@ -11,7 +11,6 @@ namespace MusicControl
 {
 	public static class Controls
 	{
-		//public static string BaseURL = "/Song/";//Примерен път "D:\\Music\\Linkin Park- Hybrid Theory [FLAC]\\";
 		public static long SongID { get; private set; }
 
 		private static Thread songThread;
@@ -26,37 +25,28 @@ namespace MusicControl
 		public static TimeSpan GetTotalTime { get { return audioFile.TotalTime; } }
 
 		static public void PlaySong(long SongId) {
-			/// Пуска дадената песен, ако друга песен е пусната я спира и пуска новата
-			//if (output.PlaybackState == PlaybackState.Playing || output.PlaybackState == PlaybackState.Paused) {
-			//output.Stop();
-			//}
-			StopSong();
+			output.Stop();
 			ManualStop = false;
 
 			SongID = SongId;
 			audioFile = Getter.GetSong(SongId).Result;
 			output.Init(audioFile);
 			output.Play();
-
+			Thread.Sleep(1000);
 			songThread = new Thread(() => {
-				while (output.PlaybackState != PlaybackState.Stopped)
-				{
-					Thread.Sleep(1500);
-				}
+				while (output.PlaybackState != PlaybackState.Stopped) { }
 				if (!ManualStop) NextSong();
 			});
 			songThread.Start();
 		}
 
 		static public void PauseSong() {
-			/// Пауза на песента
 			if (output.PlaybackState == PlaybackState.Playing) {
 				output.Pause();
 			}
 		}
 
 		static public void StopSong() {
-			/// Спира песента
 			if (output.PlaybackState == PlaybackState.Playing || output.PlaybackState == PlaybackState.Paused) {
 				ManualStop = true;
 				PrevQueue.Add(SongID);
@@ -65,7 +55,6 @@ namespace MusicControl
 		}
 
 		static public void QueueSong(long SongId) {
-			/// Добавя песен в опашката
 			if (output.PlaybackState == PlaybackState.Stopped || output.PlaybackState == PlaybackState.Paused) {
 				PlaySong(SongId);
 			} else {
@@ -74,49 +63,44 @@ namespace MusicControl
 		}
 
 		static public void NextSong() {
-			/// Пуска следващата песен от опашката
-			PrevQueue.Add(SongID);
+			if (SongID != 0L) PrevQueue.Add(SongID);
 			if (NextQueue.Count > 0) {
 				long nextSong = NextQueue[0];
 				NextQueue.RemoveAt(0);
+				StopSong();
 				PlaySong(nextSong);
 			}
 		}
 
 		static public void PreviousSong() {
-			/// Пуска предишната песен от опашката
 			if (PrevQueue.Count > 0) {
-				NextQueue.Insert(0, SongID);
+				if (SongID != 0L) NextQueue.Insert(0, SongID);
 				long prevSong = PrevQueue[PrevQueue.Count - 1];
 				PrevQueue.RemoveAt(PrevQueue.Count - 1);
+				StopSong();
 				PlaySong(prevSong);
 			}
 		}
 
 		static public void ResumeSong() {
-			/// Възобновява песента
 			if (output.PlaybackState == PlaybackState.Paused) {
 				output.Play();
 			}
 		}
 
 		static public void VolumeUp(float amount) {
-			/// Увеличава звука, amount е между 0.0 и 1.0
 			if (output.Volume < 1.0f) output.Volume += amount;
 		}
 
 		static public void VolumeDown(float amount) {
-			/// Намалява звука, amount е между 0.0 и 1.0
 			if (output.Volume > 0.0f) output.Volume -= amount;
 		}
 
 		static public void SeekBackward(double durationInSeconds) {
-			/// Превърта назад песента с определено време
 			audioFile.CurrentTime = TimeSpan.FromSeconds(audioFile.CurrentTime.TotalSeconds - durationInSeconds);
 		}
 
 		static public void SeekForward(double durationInSeconds) {
-			/// Превърта напред песента с определено време
 			audioFile.CurrentTime = TimeSpan.FromSeconds(audioFile.CurrentTime.TotalSeconds + durationInSeconds);
 		}
 	}

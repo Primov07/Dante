@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicPlayer.CLIDisplay
+namespace CLIDisplay
 {
 	internal class Display
 	{
@@ -62,9 +62,9 @@ namespace MusicPlayer.CLIDisplay
 		}
 
 		private void UpdateTableOnY() {
-			if (posy < (consoleHeight - 12)) TableDrawer.posy = posy;
-			else if (posy > (consoleHeight - 13) && posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = (consoleHeight - 13);
-			else TableDrawer.posy = (consoleHeight - 12);
+			if (posy < consoleHeight - 12) TableDrawer.posy = posy;
+			else if (posy > consoleHeight - 13 && posy != Info[TableDrawer.posx - 1].Count - 1) TableDrawer.posy = consoleHeight - 13;
+			else TableDrawer.posy = consoleHeight - 12;
 
 			if (TableDrawer.posx == 1) {
 				InfoUpdateAlbums();

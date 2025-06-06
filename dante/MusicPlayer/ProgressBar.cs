@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Data;
 using MusicControl;
 
-namespace MusicPlayer.CLIDisplay
+namespace CLIDisplay
 {
 	internal class ProgressBar
 	{
