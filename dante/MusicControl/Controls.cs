@@ -12,6 +12,10 @@ namespace MusicControl
 	public static class Controls
 	{
 		public static long SongID { get; private set; }
+		public static PlaybackState GetPlaybackState { get { return output.PlaybackState; } }
+		public static float GetVolume { get { return output.Volume; } }
+		public static TimeSpan GetCurrentTime { get { return audioFile.CurrentTime; } }
+		public static TimeSpan GetTotalTime { get { return audioFile.TotalTime; } }
 
 		private static Thread songThread;
 		private static bool ManualStop = false;
@@ -19,10 +23,6 @@ namespace MusicControl
 		private static List<long> PrevQueue = new List<long>();
 		private static Mp3FileReader audioFile;
 		private static WaveOutEvent output = new WaveOutEvent();
-		public static PlaybackState GetPlaybackState { get { return output.PlaybackState; } }
-		public static float GetVolume { get { return output.Volume; } }
-		public static TimeSpan GetCurrentTime { get { return audioFile.CurrentTime; } }
-		public static TimeSpan GetTotalTime { get { return audioFile.TotalTime; } }
 
 		static public void PlaySong(long SongId) {
 			output.Stop();
@@ -41,9 +41,7 @@ namespace MusicControl
 		}
 
 		static public void PauseSong() {
-			if (output.PlaybackState == PlaybackState.Playing) {
-				output.Pause();
-			}
+			if (output.PlaybackState == PlaybackState.Playing) output.Pause();
 		}
 
 		static public void StopSong() {
@@ -55,11 +53,8 @@ namespace MusicControl
 		}
 
 		static public void QueueSong(long SongId) {
-			if (output.PlaybackState == PlaybackState.Stopped || output.PlaybackState == PlaybackState.Paused) {
-				PlaySong(SongId);
-			} else {
-				NextQueue.Add(SongId);
-			}
+			if (output.PlaybackState == PlaybackState.Stopped || output.PlaybackState == PlaybackState.Paused) PlaySong(SongId);
+			else NextQueue.Add(SongId);
 		}
 
 		static public void NextSong() {
@@ -83,9 +78,7 @@ namespace MusicControl
 		}
 
 		static public void ResumeSong() {
-			if (output.PlaybackState == PlaybackState.Paused) {
-				output.Play();
-			}
+			if (output.PlaybackState == PlaybackState.Paused) output.Play();
 		}
 
 		static public void VolumeUp(float amount) {

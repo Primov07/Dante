@@ -1,11 +1,6 @@
 ﻿using HttpRequest;
 using MusicControl;
 using Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CLIDisplay
 {
@@ -22,7 +17,6 @@ namespace CLIDisplay
 		internal static List<string>[] Titles = new List<string>[3];
 
 		private static List<List<string>> Info = new List<List<string>>();
-		private static TableDrawer tableDrawer;
 		private static int consoleHeight = Console.WindowHeight;
 		private static byte posy = 0;
 
@@ -37,8 +31,8 @@ namespace CLIDisplay
 			Titles[2] = getUpdatedList(2);
 
 			while (true) {
-					try {
-						MenuFunc();
+				try {
+					MenuFunc();
 				} catch { Console.Clear(); }
 			}
 		}
@@ -78,7 +72,7 @@ namespace CLIDisplay
 			}
 
 			Console.Clear();
-			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+			new TableDrawer(Titles[0], Titles[1], Titles[2]);
 		}
 
 		private void UpdateTableOnX() {
@@ -98,23 +92,21 @@ namespace CLIDisplay
 				Titles[2] = getUpdatedList(2);
 			}
 
-
 			Console.Clear();
-			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+			new TableDrawer(Titles[0], Titles[1], Titles[2]);
 		}
 
 		private void PlaySong(int pos) {
 			Controls.PlaySong(songsData.First(x => x.Title == Info[2][pos]).Id);
 			Console.Clear();
-			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+			new TableDrawer(Titles[0], Titles[1], Titles[2]);
 		}
 
 		private void MenuFunc() {
 			Console.CursorVisible = false;
-			tableDrawer = new TableDrawer(Titles[0], Titles[1], Titles[2]);
+			new TableDrawer(Titles[0], Titles[1], Titles[2]);
 
 			while (true) {
-
 				ConsoleKeyInfo key = Console.ReadKey(true);
 				if (key.Key == ConsoleKey.W) {
 					Titles[TableDrawer.posx - 1] = getUpdatedListSkip12(TableDrawer.posx - 1);
@@ -170,7 +162,7 @@ namespace CLIDisplay
 					Console.Clear();
 					new TableDrawer(Titles[0], Titles[1], Titles[2]);
 				} else
-				if (key.Key == ConsoleKey.Tab && key.Modifiers == ConsoleModifiers.Shift) { 
+				if (key.Key == ConsoleKey.Tab && key.Modifiers == ConsoleModifiers.Shift) {
 					Controls.PreviousSong();
 					Console.Clear();
 					new TableDrawer(Titles[0], Titles[1], Titles[2]);

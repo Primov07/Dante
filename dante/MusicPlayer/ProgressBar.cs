@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Data;
-using MusicControl;
+﻿using MusicControl;
 
 namespace CLIDisplay
 {
@@ -21,7 +14,7 @@ namespace CLIDisplay
 		public ProgressBar() {
 			song = Display.songsData.First(x => x.Id == Controls.SongID).Title;
 			artist = Display.artistsData.First(x => x.Songs.Contains(Controls.SongID)).Name;
-			Console.SetCursorPosition((Console.WindowWidth - (song.Length + artist.Length + 3)) / 2, Console.WindowHeight-5);
+			Console.SetCursorPosition((Console.WindowWidth - (song.Length + artist.Length + 3)) / 2, Console.WindowHeight - 5);
 			Console.WriteLine($"{song} - {artist}");
 			secLenght = Convert.ToDouble(barLenght) / Controls.GetTotalTime.TotalSeconds;
 			posx = Convert.ToInt32(secLenght * Controls.GetCurrentTime.TotalSeconds);
@@ -38,7 +31,6 @@ namespace CLIDisplay
 				while (Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Playing || Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Paused) {
 					Console.SetCursorPosition(0, Console.WindowTop + 26);
 					Console.Write($" {Convert.ToDateTime(Controls.GetCurrentTime.ToString()):m:ss}" + " \u001b[32m├" + new string('─', posx) + "\u001b[0m");
-					
 					Thread.Sleep(500);
 					posx = Convert.ToInt32(secLenght * Controls.GetCurrentTime.TotalSeconds);
 				}
