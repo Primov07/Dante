@@ -11,7 +11,14 @@
         }
         public override string ToString()
         {
-            return $"\"{Title}\"\n";
+            string title = new string(Title.Take(13).ToArray());
+            if (title != Title)
+            {
+                title = title.Substring(0, title.Length - 3);
+                title = title + "...";
+            }
+            title = "\"" + title + "\"";
+            return $"{title}\n";
         }
     }
 }

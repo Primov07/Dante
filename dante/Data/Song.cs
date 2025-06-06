@@ -18,7 +18,20 @@ namespace Data
         }
         public override string ToString()
         {
-            return $"\"{Title}\"\n{Genre}\n";
+            string title = new string(Title.Take(13).ToArray());
+            string genre = new string(Genre.Take(13).ToArray());
+            if (title != Title)
+            {
+                title = title.Substring(0, title.Length - 3);
+                title = title + "...";
+            }
+            title = "\"" + title + "\"";
+            if (genre != Genre)
+            {
+                genre = genre.Substring(0, genre.Length - 3);
+                genre = genre + "...";
+            }
+            return $"{title}\n{genre}\n";
         }
     }
 }

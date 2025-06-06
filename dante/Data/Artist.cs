@@ -19,7 +19,13 @@ namespace Data
         }
         public override string ToString()
         {
-            return $"{Name}\n{Rating}";
+            string name = new string(Name.Take(13).ToArray());
+            if (name != Name)
+            {
+                name = name.Substring(0, name.Length - 3);
+                name = name + "...";
+            }
+            return $"{name}\n{Rating}";
         }
     }
 }
