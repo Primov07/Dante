@@ -1,10 +1,5 @@
-﻿using MusicControl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
+﻿
+using MusicControl;
 
 namespace CLIDisplay
 {
@@ -21,11 +16,9 @@ namespace CLIDisplay
         private string artistColor = "\u001b[31m";
         private string albumColor = "\u001b[36m";
         private string songColor = "\u001b[33m";
-        private bool run = true;
 
         public TableDrawer(List<string> artists, List<string> albums, List<string> songs)
         {
-            run = true;
             Console.SetWindowSize(120, 30);
             string welcome = " WELCOME TO DANTE ";
             int n = new List<int> { artists.Count, albums.Count, songs.Count }.Max();
@@ -46,6 +39,7 @@ namespace CLIDisplay
                     Console.Write(new string(' ', artistsWidth - artists[i].Length - 3) + "│");
                 }
                 else Console.Write(new string(' ', artistsWidth - 3) + "│");
+
                 Console.Write(albumColor + "│");
                 if (i < albums.Count)
                 {
@@ -55,6 +49,7 @@ namespace CLIDisplay
                     Console.Write(new string(' ', albumsWidth - albums[i].Length - 2) + "│");
                 }
                 else Console.Write(new string(' ', albumsWidth - 2) + "│");
+
                 Console.Write(songColor + "│");
                 if (i < songs.Count)
                 {
