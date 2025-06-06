@@ -40,10 +40,5 @@ namespace GUIDisplay
             }
             return resized;
         }
-
-        private void lblString_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

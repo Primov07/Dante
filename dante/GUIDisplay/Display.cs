@@ -15,7 +15,7 @@ namespace GUIDisplay
         private Mp3FileReader audioFile = null;
         private WaveOutEvent output = null;
 
-        private List<SongViewer> selectedSongs = new();
+        internal List<SongViewer> selectedSongs = new();
         private System.Windows.Forms.Timer timer;
 
         float volume = 1.0f;
@@ -27,25 +27,27 @@ namespace GUIDisplay
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (output.PlaybackState == PlaybackState.Playing)
+            if (output != null)
             {
-                output.Pause();
-                timer.Stop();
-                audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
-                lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
-                output.Play();
-                timer.Start();
-            }
-            else if (output.PlaybackState == PlaybackState.Paused)
-            {
-                audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
-                lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+                if (output.PlaybackState == PlaybackState.Playing)
+                {
+                    output.Pause();
+                    timer.Stop();
+                    audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
+                    lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+                    output.Play();
+                    timer.Start();
+                }
+                else if (output.PlaybackState == PlaybackState.Paused)
+                {
+                    audioFile.CurrentTime = TimeSpan.FromSeconds(trackBar1.Value);
+                    lblTime.Text = $"{trackBar1.Value / 60:00}:{trackBar1.Value % 60:00}";
+                }
             }
         }
 
         private async void btnPlay_Click(object sender, EventArgs e)
         {
-            selectedSongs = songViewers.Where(v => v.IsSelected).ToList();
             if (selectedSongs.Count != 0)
             {
                 if (output == null)
@@ -72,7 +74,7 @@ namespace GUIDisplay
         {
             await LoadDataSources();
             SetTimer();
-           
+
         }
 
         private void SetTimer()
@@ -90,6 +92,7 @@ namespace GUIDisplay
             }
             else if (trackBar1.Value + 1 == trackBar1.Maximum)
             {
+                selectedSongs[0].IsSelected = false;
                 selectedSongs.RemoveAt(0);
                 if (selectedSongs.Count != 0)
                 {
@@ -154,6 +157,10 @@ namespace GUIDisplay
             if (album != null) filteredSongs = songViewers.Where(s => album.Songs.Contains(s.Song.Id)).ToList();
             else filteredSongs = songViewers;
             filteredSongs.ForEach(s => data.Controls.Add(s));
+            lblTime.Visible = true;
+            trackBar1.Visible = true;
+            btnPlay.Visible = true;
+            volumeBar.Visible = true;
         }
         internal void ShowArtistsData()
         {
@@ -207,8 +214,8 @@ namespace GUIDisplay
             volume = volumeBar.Value / 100f;
             if (output != null)
             {
-output.Volume = volumeBar.Value / 100f;
-}
+                output.Volume = volumeBar.Value / 100f;
+            }
 
         }
     }

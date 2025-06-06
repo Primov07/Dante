@@ -50,12 +50,13 @@
             lblString.TabIndex = 1;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
+
             // 
             // SongViewer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.RosyBrown;
+            BackColor = Color.FromArgb(59, 139, 161);
             Controls.Add(lblString);
             Controls.Add(pictureBox1);
             Name = "SongViewer";

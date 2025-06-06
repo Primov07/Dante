@@ -55,6 +55,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(59, 139, 161);
             Controls.Add(lblString);
             Controls.Add(pictureBox1);
             Name = "ArtistViewer";

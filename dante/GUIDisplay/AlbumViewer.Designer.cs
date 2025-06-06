@@ -42,7 +42,6 @@
             lblString.TabIndex = 0;
             lblString.Text = "label1";
             lblString.TextAlign = ContentAlignment.MiddleCenter;
-            lblString.Click += lblString_Click;
             // 
             // pictureBox1
             // 
@@ -56,6 +55,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(59, 139, 161);
             Controls.Add(pictureBox1);
             Controls.Add(lblString);
             Name = "AlbumViewer";
