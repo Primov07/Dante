@@ -11,10 +11,15 @@ namespace GUIDisplay
         private List<SongViewer> songViewers = new();
         private List<AlbumViewer> albumViewers = new();
         private List<ArtistViewer> artistViewers = new();
+
         private Mp3FileReader audioFile = null;
         private WaveOutEvent output = null;
+
         private List<SongViewer> selectedSongs = new();
         private System.Windows.Forms.Timer timer;
+
+        float volume = 1.0f;
+
         public Display()
         {
             InitializeComponent();
@@ -67,23 +72,9 @@ namespace GUIDisplay
         {
             await LoadDataSources();
             SetTimer();
-            SetButtonColors();
-            SetVolumeBar();
-            this.BackColor = Color.FromArgb(77, 77, 77);
-            data.BackColor = Color.FromArgb(127, 127, 127);
+           
         }
-        private void SetVolumeBar()
-        {
-            volumeBar.Minimum = 0;
-            volumeBar.Maximum = 100;
-            volumeBar.Value = 100;
-        }
-        private void SetButtonColors()
-        {
-            btnArtists.BackColor = Color.FromArgb(127, 127, 127);
-            btnAlbums.BackColor = Color.FromArgb(127, 127, 127);
-            btnSongs.BackColor = Color.FromArgb(127, 127, 127);
-        }
+
         private void SetTimer()
         {
             timer = new System.Windows.Forms.Timer();
@@ -120,7 +111,7 @@ namespace GUIDisplay
             audioFile = await Getter.GetSong(selectedSongs[0].Song.Id);
             output = new WaveOutEvent();
             output.Init(audioFile);
-            output.Volume = 1f;
+            output.Volume = volume;
             output.Play();
             trackBar1.Value = 0;
             trackBar1.Maximum = (int)audioFile.TotalTime.TotalSeconds;
@@ -213,7 +204,12 @@ namespace GUIDisplay
 
         private void volumeBar_Scroll(object sender, EventArgs e)
         {
-            output.Volume = volumeBar.Value / 100f;
+            volume = volumeBar.Value / 100f;
+            if (output != null)
+            {
+output.Volume = volumeBar.Value / 100f;
+}
+
         }
     }
 }
