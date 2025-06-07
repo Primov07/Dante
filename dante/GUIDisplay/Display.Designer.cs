@@ -156,7 +156,9 @@
             Controls.Add(btnAlbums);
             Controls.Add(btnArtists);
             Controls.Add(trackBar1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Display";
             Text = "Display";
             Load += Display_Load;
