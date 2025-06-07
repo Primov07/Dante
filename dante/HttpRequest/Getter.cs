@@ -54,7 +54,10 @@ namespace HttpRequest
         {
             HttpClient client = new HttpClient();
 
-            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/song/{id}");
+            HttpResponseMessage response = await client.GetAsync($"https://dante.kartof.tk/image/song/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var data = await response.Content.ReadAsByteArrayAsync();
             var ms = new MemoryStream(data);
 
             return ms;
@@ -64,7 +67,10 @@ namespace HttpRequest
         {
             HttpClient client = new HttpClient();
 
-            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/album/{id}");
+            HttpResponseMessage response = await client.GetAsync($"https://dante.kartof.tk/image/album/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var data = await response.Content.ReadAsByteArrayAsync();
             var ms = new MemoryStream(data);
 
             return ms;
@@ -74,7 +80,10 @@ namespace HttpRequest
         {
             HttpClient client = new HttpClient();
 
-            var data = await client.GetByteArrayAsync($"https://dante.kartof.tk/image/artist/{id}");
+            HttpResponseMessage response = await client.GetAsync($"https://dante.kartof.tk/image/artist/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var data = await response.Content.ReadAsByteArrayAsync();
             var ms = new MemoryStream(data);
 
             return ms;
