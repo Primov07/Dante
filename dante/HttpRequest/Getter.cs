@@ -27,7 +27,7 @@ namespace HttpRequest
         public async static Task<List<Song>> GetSongs()
         {
             HttpClient client = new HttpClient();
-      
+
             HttpResponseMessage response = await client.GetAsync("https://dante.kartof.tk/getSongs");
             response.EnsureSuccessStatusCode();
 
@@ -84,8 +84,11 @@ namespace HttpRequest
         {
             HttpClient client = new HttpClient();
 
-            var stream = await client.GetStreamAsync($"https://dante.kartof.tk/song/{id}");
-			var ms = new MemoryStream();
+            HttpResponseMessage response = await client.GetAsync($"https://dante.kartof.tk/song/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var stream = await response.Content.ReadAsStreamAsync();
+            var ms = new MemoryStream();
 
             stream.CopyTo(ms);
             ms.Position = 0;
