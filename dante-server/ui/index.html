@@ -4,250 +4,311 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel</title>
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-hover: #3a56d4;
+        --secondary: #7209b7;
+        --dark: #121212;
+        --darker: #0a0a0a;
+        --light: #e0e0e0;
+        --lighter: #f5f5f5;
+        --danger: #ef233c;
+        --danger-hover: #d90429;
+        --success: #4cc9f0;
+        --border: #333333;
+        --card-bg: #1e1e1e;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background-color: var(--dark);
+        color: var(--light);
+        line-height: 1.6;
+        padding: 20px;
+        min-height: 100vh;
+      }
+      
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--lighter);
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+      }
+      
+      .card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid var(--border);
+      }
+      
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        border-color: var(--primary);
+      }
+      
+      .card h2 {
+        margin-bottom: 20px;
+        color: var(--primary);
+        font-size: 1.3rem;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+        font-weight: 500;
+      }
+      
+      input[type="text"],
+      input[type="number"],
+      input[type="file"],
+      input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 1rem;
+        background-color: var(--darker);
+        color: var(--light);
+        transition: border-color 0.3s;
+      }
+      
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+      
+      input[type="submit"] {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        margin-top: 10px;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: var(--primary-hover);
+      }
+      
+      .delete-form input[type="submit"] {
+        background-color: var(--danger);
+      }
+      
+      .delete-form input[type="submit"]:hover {
+        background-color: var(--danger-hover);
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 400;
+        color: var(--lighter);
+      }
+      
+      .section-title {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin: 30px 0 20px;
+        color: var(--lighter);
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+        position: relative;
+      }
+      
+      .section-title::before,
+      .section-title::after {
+        content: "";
+        display: inline-block;
+        width: 50px;
+        height: 1px;
+        background: var(--border);
+        margin: 0 15px;
+        position: relative;
+        top: -5px;
+      }
+      
+      /* File input custom styling */
+      input[type="file"] {
+        padding: 8px;
+      }
+      
+      input[type="file"]::file-selector-button {
+        background-color: var(--darker);
+        color: var(--light);
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        border-radius: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      input[type="file"]::file-selector-button:hover {
+        background-color: var(--border);
+      }
+    </style>
   </head>
   <body>
-    <!-- Song upload -->
-    Upload song
-    <form action="/create-song" method="post" enctype="multipart/form-data">
-      <input type="text" name="title" id="title" placeholder="Name" required />
-      <br />
-      <input type="text" name="genre" id="genre" placeholder="Genre" required />
-      <br />
-      <label for="music-file">Mp3 file: </label>
-      <input
-        type="file"
-        accept=".mp3"
-        name="music-file"
-        id="music-file"
-        required
-      />
-      <br />
-      <label for="cover">Cover image: </label>
-      <input type="file" accept=".png" name="cover" id="cover" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Album create -->
-    New album
-    <form action="/create-album" method="post" enctype="multipart/form-data">
-      <input type="text" name="title" id="title" placeholder="Title" required />
-      <br />
-      <label for="cover">Cover image: </label>
-      <input type="file" accept=".png" name="cover" id="cover" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Artist create -->
-    New artist
-    <form action="/create-artist" method="post" enctype="multipart/form-data">
-      <input type="text" name="name" id="name" placeholder="Name" required />
-      <br />
-
-      <input
-        type="number"
-        max="10"
-        step=".1"
-        name="rating"
-        id="rating"
-        placeholder="Rating 1-10"
-        required
-      />
-      <br />
-      <label for="cover">Artist picture: </label>
-      <input type="file" accept=".png" name="pfp" id="pfp" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <!--  -->
-    <br />
-    <!-- Add song to album-->
-    Add song to album
-    <form action="/album/add-song" method="post" enctype="multipart/form-data">
-      <input
-        type="text"
-        name="song-id"
-        id="song-id"
-        placeholder="Song id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="album-id"
-        id="album-id"
-        placeholder="Album id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-
-    <!-- Add song to Artist-->
-    Add song to artist
-    <form action="/artist/add-song" method="post" enctype="multipart/form-data">
-      <input
-        type="text"
-        name="song-id"
-        id="song-id"
-        placeholder="Song id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="artist-id"
-        id="artist-id"
-        placeholder="Artist id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Add album to Artist-->
-    Add album to artist
-    <form
-      action="/artist/add-album"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="text"
-        name="album-id"
-        id="album-id"
-        placeholder="Album id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="artist-id"
-        id="artist-id"
-        placeholder="Artist id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-
-    <!-- Remove song from album-->
-    Remove song from album
-    <form
-      action="/album/remove-song"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="text"
-        name="song-id"
-        id="song-id"
-        placeholder="Song id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="album-id"
-        id="album-id"
-        placeholder="Album id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-
-    <!-- Remove song from artist -->
-    Remove song from artist
-    <form
-      action="/artist/remove-song"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="text"
-        name="song-id"
-        id="song-id"
-        placeholder="Song id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="artist-id"
-        id="artist-id"
-        placeholder="Artist id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Remove album from Artist-->
-    Remove album from artist
-    <form
-      action="/artist/remove-album"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="text"
-        name="album-id"
-        id="album-id"
-        placeholder="Album id"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="artist-id"
-        id="artist-id"
-        placeholder="Artist id"
-        required
-      />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-
-    <!-- Delete Album -->
-    Delete album
-    <form action="/album/delete" method="post" enctype="multipart/form-data">
-      <input type="text" name="id" id="id" placeholder="Id" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Delete Song -->
-    Delete Song
-    <form action="/song/delete" method="post" enctype="multipart/form-data">
-      <input type="text" name="id" id="id" placeholder="Id" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
-    <!-- Delete Artist -->
-    Delete Artist
-    <form action="/artist/delete" method="post" enctype="multipart/form-data">
-      <input type="text" name="id" id="id" placeholder="Id" required />
-      <br />
-      <input type="submit" />
-    </form>
-    <br />
-    <!--  -->
+    <h1>Music Admin Panel</h1>
+    
+    <div class="container">
+      <!-- Creation Section -->
+      <h2 class="section-title">Create New</h2>
+      
+      <!-- Song upload -->
+      <div class="card">
+        <h2>Upload Song</h2>
+        <form action="/create-song" method="post" enctype="multipart/form-data">
+          <input type="text" name="title" id="title" placeholder="Song Name" required />
+          <input type="text" name="genre" id="genre" placeholder="Genre" required />
+          <label for="music-file">MP3 File:</label>
+          <input type="file" accept=".mp3" name="music-file" id="music-file" required />
+          <label for="cover">Cover Image (PNG):</label>
+          <input type="file" accept=".png" name="cover" id="cover" required />
+          <input type="submit" value="Upload Song" />
+        </form>
+      </div>
+      
+      <!-- Album create -->
+      <div class="card">
+        <h2>Create Album</h2>
+        <form action="/create-album" method="post" enctype="multipart/form-data">
+          <input type="text" name="title" id="title" placeholder="Album Title" required />
+          <label for="cover">Cover Image (PNG):</label>
+          <input type="file" accept=".png" name="cover" id="cover" required />
+          <input type="submit" value="Create Album" />
+        </form>
+      </div>
+      
+      <!-- Artist create -->
+      <div class="card">
+        <h2>Create Artist</h2>
+        <form action="/create-artist" method="post" enctype="multipart/form-data">
+          <input type="text" name="name" id="name" placeholder="Artist Name" required />
+          <input type="number" max="10" step=".1" name="rating" id="rating" placeholder="Rating (1-10)" required />
+          <label for="pfp">Artist Picture (PNG):</label>
+          <input type="file" accept=".png" name="pfp" id="pfp" required />
+          <input type="submit" value="Create Artist" />
+        </form>
+      </div>
+      
+      <!-- Relationships Section -->
+      <h2 class="section-title">Manage Relationships</h2>
+      
+      <!-- Add song to album-->
+      <div class="card">
+        <h2>Add Song to Album</h2>
+        <form action="/album/add-song" method="post">
+          <input type="text" name="song-id" id="song-id" placeholder="Song ID" required />
+          <input type="text" name="album-id" id="album-id" placeholder="Album ID" required />
+          <input type="submit" value="Add to Album" />
+        </form>
+      </div>
+      
+      <!-- Add song to Artist-->
+      <div class="card">
+        <h2>Add Song to Artist</h2>
+        <form action="/artist/add-song" method="post">
+          <input type="text" name="song-id" id="song-id" placeholder="Song ID" required />
+          <input type="text" name="artist-id" id="artist-id" placeholder="Artist ID" required />
+          <input type="submit" value="Add to Artist" />
+        </form>
+      </div>
+      
+      <!-- Add album to Artist-->
+      <div class="card">
+        <h2>Add Album to Artist</h2>
+        <form action="/artist/add-album" method="post">
+          <input type="text" name="album-id" id="album-id" placeholder="Album ID" required />
+          <input type="text" name="artist-id" id="artist-id" placeholder="Artist ID" required />
+          <input type="submit" value="Add to Artist" />
+        </form>
+      </div>
+      
+      <!-- Removal Section -->
+      <h2 class="section-title">Remove Relationships</h2>
+      
+      <!-- Remove song from album-->
+      <div class="card">
+        <h2>Remove Song from Album</h2>
+        <form action="/album/remove-song" method="post">
+          <input type="text" name="song-id" id="song-id" placeholder="Song ID" required />
+          <input type="text" name="album-id" id="album-id" placeholder="Album ID" required />
+          <input type="submit" value="Remove from Album" />
+        </form>
+      </div>
+      
+      <!-- Remove song from artist -->
+      <div class="card">
+        <h2>Remove Song from Artist</h2>
+        <form action="/artist/remove-song" method="post">
+          <input type="text" name="song-id" id="song-id" placeholder="Song ID" required />
+          <input type="text" name="artist-id" id="artist-id" placeholder="Artist ID" required />
+          <input type="submit" value="Remove from Artist" />
+        </form>
+      </div>
+      
+      <!-- Remove album from Artist-->
+      <div class="card">
+        <h2>Remove Album from Artist</h2>
+        <form action="/artist/remove-album" method="post">
+          <input type="text" name="album-id" id="album-id" placeholder="Album ID" required />
+          <input type="text" name="artist-id" id="artist-id" placeholder="Artist ID" required />
+          <input type="submit" value="Remove from Artist" />
+        </form>
+      </div>
+      
+      <!-- Deletion Section -->
+      <h2 class="section-title">Delete Items</h2>
+      
+      <!-- Delete Album -->
+      <div class="card delete-form">
+        <h2>Delete Album</h2>
+        <form action="/album/delete" method="post">
+          <input type="text" name="id" id="id" placeholder="Album ID" required />
+          <input type="submit" value="Delete Album" />
+        </form>
+      </div>
+      
+      <!-- Delete Song -->
+      <div class="card delete-form">
+        <h2>Delete Song</h2>
+        <form action="/song/delete" method="post">
+          <input type="text" name="id" id="id" placeholder="Song ID" required />
+          <input type="submit" value="Delete Song" />
+        </form>
+      </div>
+      
+      <!-- Delete Artist -->
+      <div class="card delete-form">
+        <h2>Delete Artist</h2>
+        <form action="/artist/delete" method="post">
+          <input type="text" name="id" id="id" placeholder="Artist ID" required />
+          <input type="submit" value="Delete Artist" />
+        </form>
+      </div>
+    </div>
   </body>
 </html>
