@@ -34,7 +34,7 @@ namespace CLIDisplay
                 while (Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Playing || Controls.GetPlaybackState == NAudio.Wave.PlaybackState.Paused)
                 {
                     Console.SetCursorPosition(0, Console.WindowTop + 26);
-                    Console.Write($" {Convert.ToDateTime(Controls.GetCurrentTime.ToString()):m:ss}" + " \u001b[32m├" + new string('─', posx) + "\u001b[0m");
+                    Console.Write($" {Convert.ToDateTime(Controls.GetCurrentTime.ToString()):m:ss}" + " \u001b[32m├" + new string('─', posx) + "\u001b[0m" + new string('─', Console.WindowWidth-(posx+15)));
                     Thread.Sleep(500);
                     posx = Convert.ToInt32(secLenght * Controls.GetCurrentTime.TotalSeconds);
                 }
